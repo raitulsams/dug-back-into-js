@@ -6,3 +6,5 @@ for (const sntnc of sentence) {
 
 }
 console.log(rev)
+
+console.log(sentence.split("").reverse().join(""))
