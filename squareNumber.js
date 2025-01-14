@@ -10,3 +10,6 @@ function sqr() {
 
 }
 sqr();
+
+console.log(Math.sqrt(2));
+console.log(2 % 8);
