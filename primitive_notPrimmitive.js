@@ -8,6 +8,7 @@ let obj2 = obj1;              // `obj2` is assigned the same reference.
 obj2.name = "Raitul";         // Modify the object through `obj2`.
 console.log(obj1.name);       // "Raitul" (because `obj1` and `obj2` point to the same object)
 
+// Here in the above code, obj1 and obj2 are referring the same object data.Thus, if i change the value in either object, it reflects on both
 
 let arr1 = [1, 2, 3];  // `arr1` holds a reference to the array in memory.
 let arr2 = arr1;       // `arr2` is assigned the same reference.
