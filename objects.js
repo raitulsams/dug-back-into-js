@@ -21,6 +21,7 @@ console.log("Values: " + objValues)
 // as values have nested object, we can use JSON.stringfy() to covert it into json string
 
 // let objValues = Object.values(thisObject)
+
 console.log("Values: " + JSON.stringify(objValues))
 
 for (let k in thisObject) {
