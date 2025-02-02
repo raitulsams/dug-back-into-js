@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Handlers</title>
+    <style>
+        #list-container {
+            padding: 10px;
+            border: 1px solid orange;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Event Bubble and Delegation</h1>
+    <div class="list-container-parent">
+        <ul id="list-container">
+            <li class="list">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, itaque?</li>
+            <li class="list">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, itaque?</li>
+            <li class="list">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, itaque?</li>
+            <li class="list">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, itaque?</li>
+            <li class="list">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, itaque?</li>
+        </ul>
+    </div>
+    <button id="add-new" type="button">Add new item</button>
+    <script>
+
+        document.getElementById("list-container").addEventListener("click", function (Event) {
+            console.log(event.target)
+            // event.target.parentNode.removeChild(event.target)
+            event.target.closest("li").remove()
+        })
+        // const lists = document.getElementsByClassName("list")
+        // for (const item of lists) {
+        //     item.addEventListener("click", function (Event) {
+        //         event.target.parentNode.removeChild(Event.target)
+        //         console.log(item.parentNode)
+        //         // console.log("Event:", Event.target)
+        //     })
+        // }
+        // document.getElementById("add-new").addEventListener("click", function (Event) {
+        //     event.target.parentNode.removeChild(event.target)
+        //     console.log(event.target)
+        // })
+        document.getElementById("add-new").addEventListener("click", function () {
+            const listContainer = document.getElementById("list-container")
+            const li = document.createElement("li")
+            li.innerText = "Lorem ipsum dolor"
+            li.classList.add("list")
+            listContainer.appendChild(li)
+        })
+    </script>
+
+</body>
+
+</html>
