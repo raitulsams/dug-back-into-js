@@ -334,3 +334,132 @@ event.stopImediatePropagation(); call only the event in selected element, even t
   Primitive types are copied by value.
   Non-primitive types are copied by reference (shallow copy).
   Use structuredClone(), JSON.parse(JSON.stringify(obj)), or \_.cloneDeep(obj) (Lodash) for deep copies.
+
+- Why we need that?
+  To handle different kinds of data efficiently and flexibly.
+  We need **primitive** and **non-primitive** types in JavaScript because they serve different purposes in memory management, data handling, and program efficiency. Let's break it down:
+
+---
+
+## **1️⃣ Why Do We Need Primitive Types? (Efficient & Simple)**
+
+Primitive types are **simple values** stored **directly in memory (stack)**. They are essential for:
+
+### **🔹 Fast Access & Performance**
+
+- Since they are stored in the **stack memory**, accessing them is **faster**.
+- Example:
+  ```javascript
+  let x = 10;
+  let y = x; // Copying value
+  y = 20; // Only y changes, x remains 10
+  ```
+
+### **🔹 Immutability (Prevents Unwanted Changes)**
+
+- Primitive values **cannot be modified** once created.
+- Example:
+  ```javascript
+  let str = "Hello";
+  str[0] = "J"; // ❌ This won't work
+  console.log(str); // "Hello"
+  ```
+
+### **🔹 Memory Efficiency**
+
+- Since primitives are stored **by value**, they take up **less space** than objects.
+
+### **🔹 Essential for Comparisons**
+
+- They are compared **by value**, making operations like sorting and filtering easier.
+- Example:
+  ```javascript
+  console.log(10 === 10); // ✅ true
+  ```
+
+**✅ Use Primitives When:**
+✔ You need **simple values** (numbers, strings, booleans).  
+✔ You want **fast access** and **less memory usage**.  
+✔ You need values that **shouldn’t change (immutability)**.
+
+---
+
+## **2️⃣ Why Do We Need Non-Primitive Types? (Complex & Flexible)**
+
+Non-primitive types (**objects, arrays, functions**) allow storing **complex data** and **multiple values together**. They are essential for:
+
+### **🔹 Storing Multiple Related Values**
+
+- Objects allow **grouping related data** together.
+- Example (Car Object):
+  ```javascript
+  let car = { brand: "BMW", model: "X5", year: 2023 };
+  console.log(car.brand); // "BMW"
+  ```
+
+### **🔹 Mutability (Modifiable Data)**
+
+- Unlike primitives, objects **can be updated** without replacing them.
+- Example:
+  ```javascript
+  let person = { name: "Alice", age: 25 };
+  person.age = 26; // ✅ Allowed
+  ```
+
+### **🔹 Dynamic Data Structures**
+
+- Arrays help store **multiple elements** efficiently.
+- Example (List of Car Models):
+  ```javascript
+  let cars = ["BMW", "Audi", "Tesla"];
+  console.log(cars[1]); // "Audi"
+  ```
+
+### **🔹 Functions as First-Class Citizens**
+
+- Functions are **objects** and can be assigned to variables, passed as arguments.
+- Example:
+  ```javascript
+  function greet() {
+    console.log("Hello!");
+  }
+  let sayHello = greet;
+  sayHello(); // "Hello!"
+  ```
+
+### **🔹 Memory Efficiency (Reference Sharing)**
+
+- Objects are stored **in heap memory** and shared using **references**, reducing memory waste.
+- Example:
+  ```javascript
+  let obj1 = { a: 1 };
+  let obj2 = obj1; // Reference to same object
+  obj2.a = 2;
+  console.log(obj1.a); // 2 (both changed)
+  ```
+
+**✅ Use Non-Primitives When:**
+✔ You need **complex structures** (objects, arrays, functions).  
+✔ You need **dynamic and modifiable data**.  
+✔ You want to **store multiple values** together.
+
+---
+
+## **🔥 Key Differences:**
+
+| Feature               | Primitive                       | Non-Primitive                             |
+| --------------------- | ------------------------------- | ----------------------------------------- |
+| **Storage**           | **Stack (direct value)**        | **Heap (reference in stack)**             |
+| **Mutability**        | **Immutable**                   | **Mutable**                               |
+| **Comparison**        | Compared **by value**           | Compared **by reference**                 |
+| **Memory Efficiency** | **Less memory (faster access)** | **More memory (flexible but slower)**     |
+| **Use Case**          | Simple data (numbers, strings)  | Complex data (objects, arrays, functions) |
+
+---
+
+## **📌 Conclusion:**
+
+🔹 **Primitives** are best for **simple, fixed values** that don’t change.  
+🔹 **Non-Primitives** allow **complex, dynamic data handling** and are essential for real-world applications.
+
+Would you like an example related to **Automotive Software Engineering** (e.g., managing multiple car objects)? 🚗💡
