@@ -531,3 +531,212 @@ console.log(str); // "Jello"
 - JavaScript **stores strings in memory efficiently** using **shared references**.
 - If they were mutable, changing one string in memory would **affect other variables** using the same value.
 - **Immutability helps with performance and security**.
+
+### **🔍 What Happens Internally When You Reassign a String in JavaScript?**
+
+When you do:
+
+```javascript
+let a = "sams";
+a = "raitul";
+```
+
+You are **not modifying** the original string `"sams"`—you are **creating a new string** and updating `a` to reference the new value. Let’s explore this in depth.
+
+---
+
+## **1️⃣ Memory Allocation: Stack vs. Heap**
+
+JavaScript manages memory in two main areas:  
+✅ **Stack Memory** (for primitive values like strings, numbers)  
+✅ **Heap Memory** (for objects, arrays, functions)
+
+Since **strings are primitives**, they are stored in the **stack**.
+
+### **Step-by-Step Breakdown**
+
+### **📌 Step 1: Creating `"sams"` and Assigning to `a`**
+
+```javascript
+let a = "sams";
+```
+
+- A new **string `"sams"` is created in memory**.
+- The variable `a` is stored in the **stack** and **points to `"sams"`**.
+
+🛠 **Memory Structure:**
+
+```
+Stack:
+a  → "sams"
+```
+
+---
+
+### **📌 Step 2: Reassigning `a` to `"raitul"`**
+
+```javascript
+a = "raitul";
+```
+
+- JavaScript **creates a new string `"raitul"`** in memory.
+- `a` **now points to `"raitul"`, breaking its link to `"sams"`**.
+- `"sams"` is **not modified**—it is just **left unused**.
+
+🛠 **Updated Memory Structure:**
+
+```
+Stack:
+a  → "raitul"  // "sams" is now unreferenced
+```
+
+- If no other variable references `"sams"`, **JavaScript’s Garbage Collector** will eventually remove it.
+
+---
+
+## **2️⃣ How Garbage Collection Works Here?**
+
+JavaScript automatically **cleans up unused memory** through **garbage collection**.
+
+- `"sams"` becomes **unreachable** when `a` stops pointing to it.
+- The **garbage collector** sees that no variable references `"sams"` anymore.
+- It **removes `"sams"` from memory**, freeing space.
+
+🔍 **When does garbage collection run?**
+
+- JavaScript uses a **mark-and-sweep algorithm** to detect unused objects.
+- It **doesn’t happen immediately** but runs **when memory needs to be freed**.
+
+---
+
+## **3️⃣ What If We Had Another Reference to `"sams"`?**
+
+If another variable **still holds `"sams"`,** it won't be deleted:
+
+```javascript
+let a = "sams";
+let b = a; // 'b' now also references "sams"
+a = "raitul"; // 'a' now points to "raitul", but 'b' still holds "sams"
+```
+
+🛠 **Memory Structure:**
+
+```
+Stack:
+a  → "raitul"
+b  → "sams"   // Since 'b' still references "sams", it won't be garbage collected
+```
+
+✔ `"sams"` **remains in memory** because `b` still references it.
+
+---
+
+## **4️⃣ Why Are Strings Immutable?**
+
+JavaScript **does not modify existing strings** because:  
+1️⃣ **Efficiency** – Strings are often shared, and modifying one could affect other variables.  
+2️⃣ **Security** – Prevents unintended side effects.  
+3️⃣ **Memory Management** – Immutable strings can be optimized by the JavaScript engine.
+
+🔍 **Example of how this prevents issues:**
+
+```javascript
+let a = "sams";
+let b = a;
+a = "raitul"; // If strings were mutable, 'b' would also change. But it doesn't!
+console.log(b); // "sams"
+```
+
+✔ This ensures `b` **doesn’t change unexpectedly**.
+
+---
+
+## **📌 Key Takeaways**
+
+✔ **Strings are stored in the stack and are immutable.**  
+✔ **When reassigned, a new string is created, and the old one is left unused.**  
+✔ **JavaScript garbage collects unreferenced strings.**  
+✔ **Immutable strings prevent unintended side effects.**
+
+### **🔍 Rest Operator (`...`) vs Spread Operator (`...`) in JavaScript**
+
+Both **rest** and **spread** use the same `...` syntax, but they work **differently** based on how they're used.
+
+---
+
+## **📌 1️⃣ Rest Operator (`...`) – Collects Elements**
+
+The **rest operator** is used in **destructuring** to **gather multiple values into an array or object**.
+
+### **✅ Example: Rest Operator in Array Destructuring**
+
+```javascript
+let myArr = ["Nike", 23, 34];
+
+// 'a' gets "Nike", and 'b' collects the rest as an array
+let [a, ...b] = myArr;
+
+console.log(a); // "Nike"
+console.log(b); // [23, 34]  <-- collected as an array
+```
+
+### **✅ Example: Rest Operator in Function Parameters**
+
+```javascript
+function sum(...numbers) {
+  return numbers.reduce((acc, num) => acc + num, 0);
+}
+
+console.log(sum(10, 20, 30, 40)); // 100
+```
+
+✔ The rest operator collects **all function arguments** into an array.
+
+---
+
+## **📌 2️⃣ Spread Operator (`...`) – Expands Elements**
+
+The **spread operator** is used to **expand elements** from an array, object, or iterable.
+
+### **✅ Example: Spread Operator in Arrays**
+
+```javascript
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+
+let combined = [...arr1, ...arr2];
+console.log(combined); // [1, 2, 3, 4, 5, 6]
+```
+
+✔ The spread operator **expands** elements from `arr1` and `arr2` into a **new array**.
+
+---
+
+### **✅ Example: Spread Operator in Objects**
+
+```javascript
+let user = { name: "Alice", age: 25 };
+let updatedUser = { ...user, city: "Berlin" };
+
+console.log(updatedUser);
+// { name: "Alice", age: 25, city: "Berlin" }
+```
+
+✔ The spread operator **copies object properties** into a new object.
+
+---
+
+## **🔍 Key Differences**
+
+| Feature     | **Rest Operator (`...`)**                                        | **Spread Operator (`...`)**                                       |
+| ----------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Purpose** | **Collects** values into an array/object                         | **Expands** values from an array/object                           |
+| **Usage**   | Used in **destructuring** (arrays/objects) & function parameters | Used in **function arguments, array merging, and object cloning** |
+| **Example** | `let [a, ...b] = myArr;` (b collects rest)                       | `let newArr = [...oldArr];` (copies elements)                     |
+
+---
+
+## **📌 Quick Rule of Thumb**
+
+✔ If you are **collecting** values → Use **rest (`...`)**  
+✔ If you are **spreading** values → Use **spread (`...`)**
