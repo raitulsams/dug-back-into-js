@@ -15,7 +15,10 @@ console.log(favoriteFoods)
 
 // array destructuring
 
-let myArr = ["Nike", 23, 34]
+let myArr = ["etai", 23, 34, "bastob"]
 let [a, ...b] = myArr
+let [x, , , y] = myArr //skipping the values
 console.log(a)
 console.log(b)
+
+console.log(y)
