@@ -317,4 +317,20 @@ event.stopImediatePropagation(); call only the event in selected element, even t
   If we create element dynamically, the existing even handlers won't work on the newly created element.
   That's why adding event in the parent and do task in the child is the best practice.
 
-- Non-primitive(mostly array and object): They normally hold the reference in memory location.
+- Primitive vs Non-primitive
+
+  Primitive Data Types (Immutable)
+  Stored directly in memory (stack)
+  Immutable (cannot be changed directly)
+  Compared by value
+
+  Non-Primitive Data Types (Mutable)
+  Stored in heap memory (reference stored in stack)
+  Mutable (can be modified)
+  Compared by reference; hold the reference in memory location.
+
+- Deep Copy vs Shallow Copy
+
+  Primitive types are copied by value.
+  Non-primitive types are copied by reference (shallow copy).
+  Use structuredClone(), JSON.parse(JSON.stringify(obj)), or \_.cloneDeep(obj) (Lodash) for deep copies.

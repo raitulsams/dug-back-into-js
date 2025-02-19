@@ -5,3 +5,5 @@ const myVehicle = {
     color: 'red'
 }
 console.log(...arr)
+const updatedVehicle = { ...myVehicle }
+console.log(updatedVehicle)
