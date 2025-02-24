@@ -692,8 +692,6 @@ console.log(sum(10, 20, 30, 40)); // 100
 
 ✔ The rest operator collects **all function arguments** into an array.
 
----
-
 ## **📌 2️⃣ Spread Operator (`...`) – Expands Elements**
 
 The **spread operator** is used to **expand elements** from an array, object, or iterable.
@@ -724,8 +722,6 @@ console.log(updatedUser);
 
 ✔ The spread operator **copies object properties** into a new object.
 
----
-
 ## **🔍 Key Differences**
 
 | Feature     | **Rest Operator (`...`)**                                        | **Spread Operator (`...`)**                                       |
@@ -740,3 +736,297 @@ console.log(updatedUser);
 
 ✔ If you are **collecting** values → Use **rest (`...`)**  
 ✔ If you are **spreading** values → Use **spread (`...`)**
+
+## COMMON ES6 INTERVIEW QUESTIONS 1
+
+1. What is ES6? Have you ever used anything from ES6?
+2. Explain the difference between var, let and const.
+3. What is the arrow function, and how to create it?
+4. Give an example of an Arrow function in ES6? List down its advantages.
+5. Discuss spread operator in ES6 with an example.
+6. What do you understand about default parameters?
+7. What are template literals in ES6?
+8. Tell us the difference between arrow and regular function.
+9. Tell us the difference between seal and freeze.
+10. Tell us the difference between for...of and for...in.
+
+## Paramete vs Arguments
+
+Parameter: Variables of functions
+Argument: values/variables; While calling function.
+
+## COMMON INTERVIEW QUESTIONS 2
+
+1. What's the difference between map, foreach, filter?
+2. What's the difference between filter and find?
+3. What is the difference between for..of and for..in?
+4. How do you empty an array?
+5. Difference between class and object.
+6. What is a Prototype chain? Or how does inheritance work in JavaScript?
+7. What does destructing do in es6?
+8. Is optional chaining is same as ternary operator?
+9. What do you mean by dot notation and bracket notation? When should you use dot notation or
+   bracket notation?
+
+## Necessity of destructuring
+
+1. A technique for unpacking objects, arrays, and assigning them to variables
+2. Helps to deal with functions that have a lot of parameters, default values
+3. Is convenient to write, easy to maintain and friendly to read
+4. Saves from writing repetitive code
+
+## Return type filter, find, map and reduce
+
+1. **`filter()`**
+
+   - **Return Type:** `Array`
+   - **Description:** Creates a new array containing all elements that pass the provided test function.
+
+2. **`find()`**
+
+   - **Return Type:** `Element | undefined`
+   - **Description:** Returns the first element that satisfies the provided test function; otherwise, it returns `undefined`.
+
+3. **`reduce()`**
+
+   - **Return Type:** `Any` (Depends on the accumulator)
+   - **Description:** Reduces the array to a single value based on the callback function.
+
+4. **`map()`**
+   - **Return Type:** `Array`
+   - **Description:** Creates a new array populated with the results of calling a provided function on every element.
+
+### Summary:
+
+| Method   | Return Type                    |
+| -------- | ------------------------------ |
+| `filter` | `Array`                        |
+| `find`   | `Element or undefined`         |
+| `reduce` | `Any` (determined by callback) |
+| `map`    | `Array`                        |
+
+## undefined and null:
+
+| Value       | `typeof` Output  | Explanation                               |
+| ----------- | ---------------- | ----------------------------------------- |
+| `undefined` | `"undefined"`    | Default value for uninitialized variables |
+| `null`      | `"object"` (bug) | Represents intentional absence of value   |
+
+## Truthy & Falsy value in js
+
+In JavaScript, **falsy** values are values that evaluate to `false` when used in a boolean context (like an `if` statement).
+
+### **Falsy Values in JavaScript:**
+
+There are exactly **7 falsy values** in JavaScript:
+
+1. **`false`** → The boolean `false` itself
+2. **`0`** → The number zero (including `-0` and `0n` for BigInt)
+3. **`""` (empty string)** → A string with no characters
+4. **`null`** → Represents an intentional absence of a value
+5. **`undefined`** → Represents an uninitialized value
+6. **`NaN`** → "Not-a-Number" value
+7. **`document.all`** (weird quirk, acts like `undefined` in modern browsers)
+
+```js
+const values = [false, 0, "", null, undefined, NaN];
+
+values.forEach((value) => {
+  console.log(value, "is falsy:", !value);
+});
+```
+
+Or using `Boolean()`:
+
+```js
+console.log(Boolean(false)); // false
+console.log(Boolean(0)); // false
+console.log(Boolean("")); // false
+console.log(Boolean(null)); // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean(NaN)); // false
+```
+
+### **Using `!` in Conditional Statements**
+
+You can use `!value` directly in an `if` statement to check for falsy values.
+
+### **Using `!!` in Conditional Statements**
+
+You can use `!!value` directly in an `if` statement to check for truthy values.
+
+## What is Type Conversion/Coercion?
+
+- Type conversion is the process of converting a value from one type to another. Values in JavaScript can be of different types. You could have a number, string, object, boolean. Sometimes, you may want to convert data from one type to another to fit a certain operation.
+
+- Type conversion can either be `implicit` (automatically done during code execution) or `explicit` (done by you the developer).
+
+- Implicit Type Conversion is also known as Coercion while Explicit Type Conversion is also known as Type Casting.
+
+```js
+const string = "";
+const number = 40;
+const boolean = true;
+
+console.log(!string);
+// true - string is coerced to boolean `false`, then the NOT operator negates it
+
+console.log(boolean + string);
+// "true" - boolean is coerced to string "true", and concatenated with the empty string
+
+console.log(40 + true);
+// 41 - boolean is coerced to number 1, and summed with 40
+```
+
+### Some facts
+
+console.log(5 == "5"); // true (String "5" is coerced to Number 5)
+console.log(5 === "5"); // false (Different types)
+console.log(true == 1); // true (true → 1)
+console.log(true === 1); // false (Different types)
+console.log(null == undefined); // true (both are "empty" values)a
+console.log(null === undefined); // false (different types)
+console.log(0 == false); // true (false → 0)
+console.log(0 === false); // false (different types)
+
+## Note: Non-primtive datatypes check the reference while using `==` / `===` equal operators wheres primitive check the values.
+
+### Js is on it's way
+
+#### true + false // 1
+
+Binary + operator triggers numeric conversion for true and false:
+true + false
+==> 1 + 0
+==> 1
+
+#### 12 / "6" // 2
+
+Arithmetic division operator / triggers numeric conversion for string '6':
+12 / '6'
+==> 12 / 6
+==>> 2
+
+#### "number" + 15 + 3 // 'number153'
+
+Operator + has left-to-right associativity, so expression "number" + 15 runs first. Since one operand is a string, + operator triggers string conversion for the number 15. On the second step expression "number15" + 3 is evaluated similarly:
+
+“number” + 15 + 3
+==> "number15" + 3
+==> "number153"
+
+#### 15 + 3 + "number" // '18number'
+
+15 + 3 + "number"
+==> 18 + "number"
+==> "18number"
+
+#### [1] > null // true
+
+Comparison operator `>` triggers numeric conversion for [1] and null:
+[1] > null
+==> '1' > 0
+==> 1 > 0
+==> true
+
+#### "foo" + + "bar" // 'fooNaN'
+
+Unary + operator has higher precedence over binary + operator. So +'bar' expression evaluates first. Unary plus triggers numeric conversion for string 'bar'. Since the string does not represent a valid number, the result is NaN. On the second step, expression 'foo' + NaN is evaluated:
+"foo" + + "bar"
+==> "foo" + (+"bar")
+==> "foo" + NaN
+==> "fooNaN"
+
+#### 'true' == true // false
+
+`==` operator triggers numeric conversion, string 'true' is converted to NaN, boolean true is converted to 1.
+'true' == true
+==> NaN == 1
+==> false
+
+#### false == 'false' // false
+
+false == 'false'  
+==> 0 == NaN
+==> false
+
+#### null == '' // false
+
+== usually triggers numeric conversion, but it’s not the case with null. null equals to null or undefined only, and does not equal to anything else:
+null == ''
+==> false
+
+#### !!"false" == !!"true" // true
+
+`!!` operator converts both 'true' and 'false' strings to boolean true, since they are non-empty strings. Then, `==` just checks equality of two boolean true's without any coercion:
+!!"false" == !!"true"  
+==> true == true
+==> true
+
+#### ['x'] == 'x' // true
+
+When an array is compared with a string, js first converts the array to a primitive using the toString() method.
+['x'] == 'x'  
+==> 'x' == 'x'
+==> true
+
+#### [] + null + 1 // 'null1'
+
+[] + null + 1  
+==> '' + null + 1  
+==> 'null' + 1  
+==> 'null1'
+
+Logical || and && operators coerce operands to boolean, but return original operands (not booleans). 0 is falsy, whereas '0' is truthy, because it’s a non-empty string. {} empty object is truthy as well:
+0 || "0" && {}  
+==> (0 || "0") && {}
+==> (false || true) && true // internally
+==> "0" && {}
+==> true && true // internally
+==> {}
+
+#### [1,2,3] == [1,2,3] // false
+
+No coercion is needed because both operands have same type. Since `==` checks for object identity (and not for object equality) and the two arrays are two different instances, the result is false.
+[1,2,3] == [1,2,3]
+==> false
+
+#### Note:
+
+When you use == (or ===), objects (including arrays) are compared by reference, not by value.
+This means that two arrays are only == or === if they point to the exact same memory location.
+
+#### {}+[]+{}+[1] // '0[object Object]1'
+
+All operands are non-primitive values, so + starts with the leftmost triggering numeric conversion. Both Object’s and Array’s valueOf method returns the object itself, so it’s ignored. toString() is used as a fallback. The trick here is that first {} is not considered as an object literal, but rather as a block declaration statement, so it’s ignored. Evaluation starts with next +[] expression, which is converted to an empty string via toString() method and then to 0:
+
+{}+[]+{}+[1]
+==> +[]+{}+[1]
+==> 0 + {} + [1]
+==> 0 + '[object Object]' + [1]
+==> '0[object Object]' + [1]
+==> '0[object Object]' + '1'
+==> '0[object Object]1'
+
+#### !+[]+[]+![] // 'truefalse'
+
+!+[]+[]+![]  
+==> (!+[]) + [] + (![])
+==> !0 + [] + false
+==> true + [] + false
+==> true + '' + false
+==> 'truefalse'
+
+#### new Date(0) - 0 // 0
+
+`-` operator triggers numeric conversion for Date. Date.valueOf() returns number of milliseconds since Unix epoch:
+new Date(0) - 0
+==> 0 - 0
+==> 0
+
+#### new Date(0) + 0 // 'Thu Jan 01 1970 02:00:00(EET)0'
+
+`+` operator triggers default conversion. Date assumes string conversion as a default one, so toString() method is used, rather than valueOf():
+new Date(0) + 0
+==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)' + 0
+==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)0'
