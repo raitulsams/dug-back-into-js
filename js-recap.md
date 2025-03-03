@@ -293,7 +293,7 @@ Collection of elements, Array like objects, Real time change, Only HTML Specific
 // Node List
 Static elements, Not real time changes, (querySelectorAll), foreach
 
-// Inside the tag, id, class, anything is attribute
+## Note: Inside the tag, id, class, anything is attribute
 
 // Event
 
@@ -889,7 +889,7 @@ console.log(null === undefined); // false (different types)
 console.log(0 == false); // true (false → 0)
 console.log(0 === false); // false (different types)
 
-## Note: Non-primtive datatypes check the reference while using `==` / `===` equal operators wheres primitive check the values.
+## Note: Non-primtive datatypes check the reference (Mostly not works with equal operator) while using `==` / `===` equal operators wheres primitive check the values.
 
 ### Js is on it's way
 
@@ -1030,3 +1030,180 @@ new Date(0) - 0
 new Date(0) + 0
 ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)' + 0
 ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)0'
+
+## **JavaScript Hoisting**
+
+Hoisting in JavaScript is a behavior where variable and function declarations are moved ("hoisted") to the top of their scope before the code execution.
+
+However, only the **declarations** are hoisted, not the initializations.
+
+---
+
+## **1. Hoisting with `var`**
+
+When you declare a variable using `var`, JavaScript moves the declaration to the top of its scope but **not the assignment**.
+
+```js
+console.log(a); // undefined (not an error)
+var a = 10;
+console.log(a); // 10
+```
+
+🔹 **Why undefined?**  
+Because `var a;` is hoisted to the top, but `a = 10;` stays in place.
+
+Internally, JavaScript interprets it as:
+
+```js
+var a;
+console.log(a); // undefined
+a = 10;
+console.log(a); // 10
+```
+
+---
+
+## **2. Hoisting with `let` and `const`**
+
+Variables declared with `let` and `const` are also hoisted, but they are in a **Temporal Dead Zone (TDZ)** until initialized.
+
+```js
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 20;
+console.log(b); // ✅ 20
+```
+
+The same applies to `const`:
+
+```js
+console.log(c); // ❌ ReferenceError
+const c = 30;
+console.log(c);
+```
+
+---
+
+## **3. Hoisting with Functions**
+
+### **Function Declarations**
+
+Function declarations are **fully hoisted**, meaning you can call the function before its declaration.
+
+```js
+greet(); // ✅ "Hello!"
+
+function greet() {
+  console.log("Hello!");
+}
+```
+
+Internally, JavaScript moves the whole function to the top:
+
+```js
+function greet() {
+  console.log("Hello!");
+}
+
+greet();
+```
+
+### **Function Expressions (`var`, `let`, `const`)**
+
+Function expressions **are not hoisted** the same way.
+
+#### **Using `var`**
+
+```js
+console.log(sayHi); // undefined
+sayHi(); // ❌ TypeError: sayHi is not a function
+
+var sayHi = function () {
+  console.log("Hi!");
+};
+```
+
+🔹 The variable `sayHi` is hoisted but initialized as `undefined`.
+
+#### **Using `let` or `const`**
+
+```js
+console.log(sayHello); // ❌ ReferenceError
+const sayHello = function () {
+  console.log("Hello!");
+};
+```
+
+🔹 `let` and `const` follow TDZ rules, so accessing before declaration throws an error.
+
+## JavaScript Closure
+
+### **What is a Closure?**
+
+A **closure** happens when an inner function "remembers" the variables from its outer function, even after the outer function has finished running.
+
+### **Explanation**
+
+1. **Lexical Scope** means that a function knows about variables in the place where it was created.
+2. Normally, when a function runs, its local variables disappear after execution.
+3. But **a closure keeps those variables alive** by remembering them, even if the outer function is gone.
+
+---
+
+### **Example 1: Closure in Action**
+
+```javascript
+function outerFunction() {
+  let message = "Hello, Closure!"; // Variable inside outerFunction
+
+  return function innerFunction() {
+    console.log(message); // innerFunction "remembers" message
+  };
+}
+
+const closureFunction = outerFunction(); // outerFunction runs and returns innerFunction
+closureFunction(); // Output: Hello, Closure!
+```
+
+#### **Why does this work?**
+
+- `innerFunction` was **created inside** `outerFunction`, so it **remembers** `message` (lexical scope).
+- Even though `outerFunction()` has **finished executing**, `message` is still accessible to `innerFunction`.
+- This is **a closure**—a function remembering variables even after its parent function is gone.
+
+---
+
+### **Example 2: Practical Use Case – Private Counter**
+
+Closures are useful for **data privacy**.
+
+```javascript
+function createCounter() {
+  let count = 0; // Private variable
+
+  return {
+    increment: function () {
+      count++;
+      console.log(count);
+    },
+    decrement: function () {
+      count--;
+      console.log(count);
+    },
+  };
+}
+
+const counter = createCounter();
+counter.increment(); // 1
+counter.increment(); // 2
+counter.decrement(); // 1
+```
+
+#### **What’s happening here?**
+
+- `count` is inside `createCounter()`, so it's **not directly accessible** outside.
+- But `increment` and `decrement` can **still access count** because of the closure.
+- This keeps `count` **private and safe**.
+
+## Synchronous vs Asynchronous
+
+`setTimeout()` is an asynchronous function, meaning that the timer function will not pause execution of other functions in the functions stack
