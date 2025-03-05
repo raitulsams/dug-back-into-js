@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeList vs HTMLCollection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 12px;
+        }
+
+        .add-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        #clearAll {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .add-btn:hover {
+            background: #0056b3;
+        }
+
+        .target-container {
+            border: 2px dashed #007bff;
+            padding: 15px;
+            min-height: 80px;
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>NodeList vs HTMLCollection</h2>
+    <div class="container">
+        <div class="product-card">
+            <div class="product-name">Product 1</div>
+            <div class="product-description">This is a short description of product 1.</div>
+            <button class="add-btn">Add to</button>
+        </div>
+        <div class="product-card">
+            <div class="product-name">Product 2</div>
+            <div class="product-description">This is a short description of product 2.</div>
+            <button class="add-btn">Add to</button>
+        </div>
+        <div class="product-card">
+            <div class="product-name">Product 3</div>
+            <div class="product-description">This is a short description of product 3.</div>
+            <button class="add-btn">Add to</button>
+        </div>
+        <div class="product-card">
+            <div class="product-name">Product 4</div>
+            <div class="product-description">This is a short description of product 4.</div>
+            <button class="add-btn">Add to</button>
+        </div>
+    </div>
+
+    <h3>Appended Boxes:</h3>
+    <button id="clearAll">Clear All</button>
+    <div class="target-container"></div>
+
+    <!-- <div class="buttons"> -->
+    <!-- <button id="addBox">Add Box</button> -->
+    <!-- <button id="logCounts">Log Counts</button>
+        <button id="clearAll">Clear All</button>
+
+    </div> -->
+
+
+
+    <script>
+        //  STATIC NodeList (does NOT update automatically)
+        let staticNodeList = document.querySelectorAll(".box");
+
+        //  LIVE NodeList (updates automatically)
+        let liveNodeList = document.body.childNodes;
+
+        // LIVE HTMLCollection (updates automatically)
+        let liveHTMLCollection = document.getElementsByClassName("box");
+
+        // Function to add a new <div class="box"> dynamically
+        // let boxCount = 1;
+        // document.getElementById("addBox").addEventListener("click", function () {
+        //     let newDiv = document.createElement("div");
+        //     newDiv.className = "box new-box";
+        //     newDiv.textContent = `New Box ${boxCount}`;
+        //     document.body.appendChild(newDiv);
+        //     boxCount++;
+        // });
+
+        // document.getElementById("logCounts").addEventListener("click", function () {
+        //     console.log("Static NodeList count:", staticNodeList.length); // Stays the same
+        //     // console.log("Live NodeList count:", liveNodeList.length); // Updates
+        //     console.log("Live HTMLCollection count:", liveHTMLCollection.length); // Updates
+        // });
+
+        document.getElementById("clearAll").addEventListener("click", () => {
+            const newBoxes = document.getElementsByClassName("new-box")
+            // const newBoxes = document.querySelectorAll(".new-box") 
+            console.log(newBoxes.length)
+
+            document.querySelectorAll(".new-box").forEach((box) => {
+                box.remove()
+                // boxCount = 1;
+            })
+        })
+        let buttons = document.querySelectorAll('.add-btn');
+
+        buttons.forEach((button, index) => {
+            button.addEventListener('click', (event) => {
+                let targetButton = event.target; // Get the button that was clicked
+                console.log(targetButton)
+                let parentDiv = targetButton.parentNode; // Get the parent div of the button
+                console.log("Parent Div", parentDiv)
+                let prodName = parentDiv.querySelector('.product-name').innerText; // Find the box inside the same div
+                let prodDesc = parentDiv.querySelector('.product-description').innerText;
+                // let newBox = parentDiv.cloneNode(true)
+                let newBox = document.createElement("div")
+                let h4 = document.createElement('h4');
+                let h6 = document.createElement('h6');
+                h4.textContent = `${prodName}`;
+                h6.textContent = `${prodDesc}`;
+                newBox.appendChild(h4)
+                newBox.appendChild(h6)
+                newBox.classList.add("new-box")
+
+                document.querySelector('.target-container').appendChild(newBox);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

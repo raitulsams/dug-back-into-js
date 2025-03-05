@@ -1,345 +1,96 @@
-HTML: Hypertext Markup Language.
-H = Reference/Link
-Text= Data/Information
-Markup = Predefined/Marked
-Language = Language/Communication
-
-What are Semantic Elements?
-A semantic element clearly describes its meaning to both the browser and the developer.
-Examples of non-semantic elements: <div> and <span> - Tells nothing about its content.
-Examples of semantic elements: <form>, <table>, and <article> - Clearly defines its content
-
-Self closing tags: <br/>, <img>, <link>
-
-CSS:
-3 types: Internal, Inline, External
-Selectors: Class, ID, Universal, Element, Attribute & Grouping selectors.
-Attribute Selectors: input [type="password"]{
-color: red;
-}
-
-Box Model:
-
-- content
-- Border
-- Margin
-- Padding
-- Width/height
-
-Display:
-
-display: none; visibility: none;
-
-Background Position:
-
-background-position: left top; (Top-right corner)
-background-position: 0 0;
-background-position: top;
-background-position: 50% 0; (Vertically middle)
-
-What is version control?
-Version control, also known as source control, is the practice of tracking and managing changes to software code. Version control systems are software tools that help software teams manage changes to source code over time.
-
-Version Control Systems (VCS) are tools that help manage changes to source code and other collections of information.
-There are three main types of VCS:
-
-- Local Version Control System (LVCS)
-- Centralized Version Control System (CVCS)
-- Distributed Version Control System (DVCS)
-
-Github is a web based hosting service and platform that utilizes the git version control.
-
-Git Command:
-
-git add .
-git commit
-git branch -M main
-git remote add origin "link"
-git push -u origin main
-
-git branch; Branch information
-git remote -v; Remote information
-git checkout main; Move to the another branch
-git checkout -b veg-khaina; Creating new branch
-
-\*\* fork kore nijer local e niye asha, then new branch kore existing project modify kore.
-Push korar time e error ashbe karon je branch create korsi sheta main project e nai. Eijonno
-
-- git push -set--upstream origin branch-name dite hoy.
-  Modify seshe pull request kora main project owner k. Project owner can review and merge or reject the pull request.
-
-New tags in HTML5
-<audio>
-<canvas>
-<command>
-<datalist>
-
-<details>
-<embed>
-<video>
-
-New semantic tags\*
-Semantic defines what the tag are used for.
-
-<header>
-<nav>
-<article>
-<section>
-<aside>
-<footer>
-
--- Form/label/fieldset/
-
-<fieldset>
-<label for="chitoy"><input type="radio" name="pitha" id="chitoy">Chitoy </label>
-<label for="vapa"><input type="radio" name="pitha" id="vapa">Vapa </label>
-</fieldset>
- 
-ekhane for="name" ta hocche input field er id name.
-name="pitha" - input field e same rakhle radio button ekta choose korbe
-Kintu type="checkbox" holey multiple select korte parbe
-
--- nav
-nav er vitor immediete child, bakider ignore kora.
-nav > ul {
-display:flex;
-}
-
-ar eta hocche all ul k
-nav ul {
-display:flex;
-}
-
-nav li .dropdown{
-display:none;
-position: absolute; //means baki element k affect korbena, element thakle tar upore show korbe
-}
-
-CSS Positions
-
--- flow related
-static
-absolute
-relattive
-
--- scroll related
-fixed
-sticky
-
-.ring{
-position: relative;
-left: 100px;
-top: 20px;
-}
-current position theke left and top e move korbe. eta kokhono tar nijer jayga chare na.
-
-.ring{
-position: absolute;
-left: 100px;
-top: 20px;
-}
-nijer kono specific jayga nei. left and top sorbe root theke.
-abar jodi er parent er postion:relative dewa thake tahole sheta tar parent theke sorbe.
-
-.ring{
-position: sticky;
-top: 0px;
-}
-top theke sticky thakbe scroll er somoy.
-
-.ring{
-position: fixed;
-left: 100px;
-top: 20px;
-}
-website er jekhanei thaki na keno eta fixed thakbe. means sob content er upor overflow korbe.
-
--- Z-index
-
-kono ekta element er upor arekta element boshanor jonno z-index use hoy.
-
-z-index er value sob cheye highest jeta hobe sheta baki element er upore boshbe and sequentially emn e hobe.
-
--- pseduo element
-
-h3::after{
-content: '.pdf'
-}
-h3::before{
-content: '\* '
-}
-p::first-letter{
-font-size: 2em;
-}
-
-p::first-line{
-background-color: red';
-}
-
-::selection{
-background-color: yellow;
-}
-
-input::placeholder{
-color: blue;
-}
-
--- CSS Responsive
-.container {
-display: grid;
-gap: 3px;
-grid-template-areas:
-"item-1 item-2 item-2"
-"item-1 item-3 item-4";
-grid-template-columns: 2fr 1fr 1fr;
-}
-
--- Free images and resources for website
-https://medium.com/design-bootcamp/free-images-and-resources-collection-for-website-c77f2fc46ce5
-
-1. https://bgjar.com/ [Free svg background generator for your websites, blogs and app.]
-2. https://app.haikei.app/
-3. https://coolbackgrounds.io/
-4. https://meshgradient.in/
-5. https://www.svgbackgrounds.com/
-
--- Animated
-
-1. https://lottiefiles.com/
-2. https://icons8.com/icons/set/popular--animated
-3. https://mixkit.co/
-4. https://www.humaaans.com/
-5. https://www.openpeeps.com/
-
--- Free image websites & illustrations
-
-1. https://undraw.co/
-2. https://www.drawkit.com/
-3. https://pixabay.com/
-4. https://www.pexels.com/
-5. https://www.shopify.com/stock-photos
-6. https://stocksnap.io/
-7. https://www.reshot.com/
-8. https://www.freepik.com/
-9. https://gratisography.com/
-10. https://www.lifeofpix.com/
-11. https://kaboompics.com/
-12. https://unsplash.com/
-13. https://www.manypixels.co/gallery
-14. https://opendoodles.com/
-
--- Template to Practice
-
-1. https://www.frontendmentor.io/
-2. https://uideck.com/
-3. https://colorlib.com/wp/templates/
-4. https://templatemo.com/
-5. https://html5up.net/
-6. https://www.free-css.com/
-7. https://startbootstrap.com/
-8. https://themesfor.app/
-9. https://bootstrapmade.com/
-10. https://bootstraptaste.com/
-
--- CSS3
-
-width er baire likha guli (...) hoye show korbe.
-even you can try to set the whole text in the title="something" attribute.
-.box{
-width: 200px
-white-space:no-wrap;
-text-decoration: ellipsis;
-transition: transform 1s;
-}
-
-.box:hover{
-transform: rotate(45deg) scale(102) translateX(150px);
-}
-
--- transform-origin
-sets the origin for an element's transformations.
-
-/_ y-offset-keyword | x-offset-keyword | z-offset _/
-transform-origin: bottom right 2cm;
-transform-origin: top right;
-
--- Optimize images
-
-1. Photopea
-2. TinyPNG
-
--- Specity, style, priority 11_5
-Inline style <h1 style="color: pink;"> Highest priority, directly applied with the style attribute
-Id selectors #navbar Second highest priority, identified by the unique id attribute of an element
-Classes and pseudo-classes .test, :hover Third highest priority, targeted using class names
-Attributes [type="text"] Low priority, applies to attributes
-Elements and pseudo-elements h1, ::before, ::after Lowest priority, applies to HTML elements and pseudo-elements
-
--- Daisy UI (Component library of tailwind CSS)
-
-Bootstrap vs Tailwind CSS:
-
-Bootstrap is component based CSS framework whereas Tailwind CSS is utility based CSS framework.
-
-Bootstrap: UI Component Library
-Key Idea: Bootstrap gives you ready-made components, such as buttons, navbars, or modals, that are already styled and follow a consistent design system.
-
-Tailwind CSS: Utility Library
-Key Idea: Tailwind gives you utility classes (small, single-purpose classes) to build your own components from scratch. It doesn’t provide pre-styled buttons or design systems. Instead, you create a button by combining utility classes.
-
-// HTML Collection
-Collection of elements, Array like objects, Real time change, Only HTML Specific Elements. (getElementsByTagName, getElementsByClassName), For...of loop
-
-// Node List
-Static elements, Not real time changes, (querySelectorAll), foreach
-
-## Note: Inside the tag, id, class, anything is attribute
-
-// Event
-
-<button id = "make-blue"> Make Blue </button>
-
-const makeBlue = document.getElementById("make-blue");
-makeBlue.onclick = makeBlueColor
-
-function makeBlueColor(){
-document.body.style.backgroundColor = "blue"
-}
-
-- When you do this, it means function will call when you click the button.
-
-event.stopPropagation(); call only the events in selected element, even multiple event will call; stop bubbling
-
-event.stopImediatePropagation(); call only the event in selected element, even the if element has multiple event it won't call; stop bubbling
-
-- Event propagation and deligation
-
-  If we create element dynamically, the existing even handlers won't work on the newly created element.
-  That's why adding event in the parent and do task in the child is the best practice.
-
-- Primitive vs Non-primitive
-
-  Primitive Data Types (Immutable)
-  Stored directly in memory (stack)
-  Immutable (cannot be changed directly)
-  Compared by value
-
-  Non-Primitive Data Types (Mutable)
-  Stored in heap memory (reference stored in stack)
-  Mutable (can be modified)
-  Compared by reference; hold the reference in memory location.
-
-- Deep Copy vs Shallow Copy
-
-  Primitive types are copied by value.
-  Non-primitive types are copied by reference (shallow copy).
-  Use structuredClone(), JSON.parse(JSON.stringify(obj)), or \_.cloneDeep(obj) (Lodash) for deep copies.
-
-- Why we need that?
-  To handle different kinds of data efficiently and flexibly.
-  We need **primitive** and **non-primitive** types in JavaScript because they serve different purposes in memory management, data handling, and program efficiency. Let's break it down:
-
----
+## `NodeList` and `HTMLCollection`
+
+Both are array-like objects that represent collections of DOM elements.
+
+### 1. **Type of Elements**
+
+- **`NodeList`**: Can contain any type of nodes (e.g., element nodes, text nodes, comment nodes).
+- **`HTMLCollection`**: Only contains element nodes (`HTMLElement` objects).
+
+### 2. **Methods and Properties**
+
+- **`NodeList`**: Has fewer methods, but `NodeList` (from `querySelectorAll`) supports `forEach()`.
+- **`HTMLCollection`**: Has more specific methods like `namedItem()`, which allows access by `id` or `name` attribute.
+
+### 3. **Live vs. Static**
+
+- **`NodeList`**:
+  - If returned by `querySelectorAll()`, it is **static** (does not update automatically).
+  - If returned by `childNodes`, it is **live** (updates when DOM changes).
+- **`HTMLCollection`**: Always **live**, meaning it updates when the DOM changes.
+
+### 4. **How They Are Obtained**
+
+- **`NodeList`**:
+  - Obtained via `document.querySelectorAll()`, `childNodes`, etc.
+- **`HTMLCollection`**:
+  - Obtained via `document.getElementsByTagName()`, `document.getElementsByClassName()`, etc.
+
+### Example:
+
+```javascript
+// NodeList (Static)
+let nodeList = document.querySelectorAll("p");
+console.log(nodeList.length); // Does not change even if new <p> elements are added
+
+// HTMLCollection (Live)
+let htmlCollection = document.getElementsByTagName("p");
+console.log(htmlCollection.length); // Updates if new <p> elements are added
+```
+
+### **Which One to Use?**
+
+- Use **`querySelectorAll()`** (`NodeList`) when you don’t need live updates.
+- Use **`getElementsByTagName()` / `getElementsByClassName()`** (`HTMLCollection`) if you want automatic updates when elements are added or removed.
+
+### Key:
+
+1. NodeList supports forEach(), but HTMLCollection does not.
+2. NodeList is array-like and has a forEach() method.
+3. HTMLCollection does not have forEach(), so you must convert it into an array first.
+
+## innerHTML vs innerText
+
+`innerHTML` and `innerText` are both properties in JavaScript that are used to access or modify the content of HTML elements, but they serve different purposes:
+
+1. **`innerHTML`:**
+
+   - This property retrieves or sets the HTML markup (including HTML tags) inside an element.
+   - When you use `innerHTML`, it includes any HTML structure, such as `<b>`, `<i>`, or even `<div>` tags.
+   - It's useful when you want to work with HTML content, including formatting and nested elements.
+
+   **Example:**
+
+   ```html
+   <div id="myDiv"><strong>Hello</strong> World!</div>
+   ```
+
+   ```javascript
+   let content = document.getElementById("myDiv").innerHTML;
+   console.log(content); // Outputs: <strong>Hello</strong> World!
+   ```
+
+2. **`innerText`:**
+
+   - This property retrieves or sets only the **text content** inside an element, excluding any HTML tags.
+   - It gives you the "rendered" text as it appears to the user, which can be affected by CSS (like `display: none`).
+   - It’s mainly used when you want to work with just the plain text without any HTML markup.
+
+   **Example:**
+
+   ```html
+   <div id="myDiv"><strong>Hello</strong> World!</div>
+   ```
+
+   ```javascript
+   let content = document.getElementById("myDiv").innerText;
+   console.log(content); // Outputs: Hello World!
+   ```
+
+### Key Differences:
+
+- **HTML vs. Text:** `innerHTML` returns everything, including HTML elements, while `innerText` gives you just the visible text.
+- **Rendering and Formatting:** `innerText` takes into account styles that affect visibility (like `display: none`), while `innerHTML` just returns whatever is in the element, regardless of CSS.
 
 ## **1️⃣ Why Do We Need Primitive Types? (Efficient & Simple)**
 
@@ -1144,7 +895,7 @@ A **closure** happens when an inner function "remembers" the variables from its 
 ### **Explanation**
 
 1. **Lexical Scope** means that a function knows about variables in the place where it was created.
-2. Normally, when a function runs, its local variables disappear after execution.
+2. Normally, when a function runs, its local variables (variables inside the function) disappear after execution.
 3. But **a closure keeps those variables alive** by remembering them, even if the outer function is gone.
 
 ---
@@ -1204,6 +955,294 @@ counter.decrement(); // 1
 - But `increment` and `decrement` can **still access count** because of the closure.
 - This keeps `count` **private and safe**.
 
+## `arguments` Object in JavaScript
+
+The **`arguments`** object is an **array-like** object available inside functions that allows access to all arguments passed to the function, even if they are not explicitly declared as parameters.
+
+### Key Features:
+
+1. **Works only in non-arrow functions**:  
+   The `arguments` object is not available in **arrow functions**.
+2. **Contains all passed arguments**:  
+   It includes even those arguments that were not declared in the function signature.
+3. **Array-like but not an actual array**:  
+   It has a `length` property but lacks array methods like `map()`, `forEach()`, etc.
+
+---
+
+### Example Usage:
+
+```javascript
+function sum() {
+  let total = 0;
+  console.log(arguments); //[Arguments] { '0': 2, '1': 4, '2': 6, '3': 8, '4': 10 }
+  for (let i = 0; i < arguments.length; i++) {
+    total += arguments[i]; // Accessing arguments dynamically
+  }
+  return total;
+}
+
+console.log(sum(2, 4, 6, 8, 10)); // Output: 30
+```
+
+Here, `arguments` allows handling a variable number of arguments without explicitly defining parameters.
+
+---
+
+### `arguments.length`:
+
+You can check how many arguments were passed using `arguments.length`.
+
+```javascript
+function checkArgs() {
+  console.log("Number of arguments passed:", arguments.length);
+}
+
+checkArgs(1, 2, 3); // Output: Number of arguments passed: 3
+checkArgs(); // Output: Number of arguments passed: 0
+```
+
+---
+
+### `arguments` in Arrow Functions:
+
+Arrow functions **do not** have their own `arguments` object. If used inside an arrow function, it refers to the `arguments` of the nearest **regular function**.
+
+```javascript
+const arrowFunction = () => {
+  console.log(arguments); // ReferenceError: arguments is not defined
+};
+
+arrowFunction(1, 2, 3);
+```
+
+To work around this, use **rest parameters (`...args`)** instead.
+
+```javascript
+const sumArrow = (...args) => {
+  return args.reduce((acc, curr) => acc + curr, 0);
+};
+
+console.log(sumArrow(5, 10, 15)); // Output: 30
+```
+
+---
+
+### `arguments` vs Rest Parameters (`...args`)
+
+| Feature                       | `arguments` | Rest Parameters (`...args`) |
+| ----------------------------- | ----------- | --------------------------- |
+| Available in arrow functions  | ❌ No       | ✅ Yes                      |
+| Works in old JS versions      | ✅ Yes      | ❌ No (ES6+)                |
+| Array-like                    | ✅ Yes      | ✅ Yes (but real array)     |
+| Supports array methods        | ❌ No       | ✅ Yes                      |
+| Only named arguments included | ✅ Yes      | ✅ Yes                      |
+
+---
+
+### Summary:
+
+- **`arguments`** is an **array-like** object available in **regular functions**.
+- It includes **all** arguments passed, even if not explicitly declared.
+- It does **not** work in **arrow functions**.
+- Use **rest parameters (`...args`)** in modern JavaScript instead.
+
+## Error Debug
+
+```js
+const savingAmount = (savePercentage / 100) \* income
+```
+
+If there is a id named "income" and income is not defined or assigned a value in the particular scope then it reference the id in the DOM which return the element and it defines as global variables. We can get the value from this by using `income.value`.
+
 ## Synchronous vs Asynchronous
 
-`setTimeout()` is an asynchronous function, meaning that the timer function will not pause execution of other functions in the functions stack
+`setTimeout()` is an asynchronous function, meaning that the timer function will not pause execution of other functions in the functions stack.
+
+## Explore API
+
+# 🌍 **Understanding the Internet & APIs **
+
+Think of the internet as a **huge network of roads** 🚗 that connect different cities (computers). Every city has a unique address, and there are rules that control how cars move between them. Let’s explore these concepts one by one!
+
+---
+
+## **1️⃣ What is an API? (Application Programming Interface)**
+
+### 📌 **Imagine a Restaurant Scenario 🍽️**
+
+You're at a restaurant and want to order food. But you don’t go to the kitchen; instead, you call a **waiter** (API). The waiter:
+
+1. Takes your order 📝
+2. Gives it to the chef 👨‍🍳
+3. Brings back your food 🍲
+
+Similarly, an API acts as a **middleman** that helps different software applications communicate.
+
+### 🌟 **Example of an API in Real Life**
+
+Let’s say you open a **Weather App**. The app itself **does not know** the temperature—it asks a **Weather API** like this:
+
+```http
+GET https://api.weather.com/current?city=Berlin
+```
+
+The API replies:
+
+```json
+{
+  "temperature": "15°C",
+  "condition": "Cloudy"
+}
+```
+
+This response is **used by the app** to show the weather on your screen.
+
+💡 **In short:**
+
+- The API is like a **waiter** 🏃
+- Your request is like an **order** 🍽️
+- The server is like a **kitchen** 🍳
+
+---
+
+## **2️⃣ How Does the Internet Work? (The Postal System Analogy 📬)**
+
+The **internet** is like a giant **postal service** 📦. If you send a letter, it needs:
+
+1. **An Address** (Where is it going?)
+2. **A Route** (How will it get there?)
+3. **A Protocol** (Rules for delivery)
+
+---
+
+### **🔹 HTTP vs HTTPS (How Websites Communicate)**
+
+Think of **HTTP** and **HTTPS** as **languages** websites use to talk.
+
+| Feature  | HTTP (🚨 Old)          | HTTPS (🔒 Secure)         |
+| -------- | ---------------------- | ------------------------- |
+| Security | Not encrypted          | Uses encryption (SSL/TLS) |
+| Risk     | Hackers can steal data | Safe from hackers         |
+| Example  | `http://example.com`   | `https://example.com`     |
+
+💡 **Always prefer HTTPS**—it keeps your passwords and personal info safe!
+
+---
+
+### **🔹 Different Internet Protocols (The Different Postal Services 📦)**
+
+| Protocol           | Purpose                              | Example                       |
+| ------------------ | ------------------------------------ | ----------------------------- |
+| **HTTP/HTTPS**     | Web browsing                         | Visiting websites             |
+| **FTP**            | File transfers                       | Uploading/downloading files   |
+| **SMTP/POP3/IMAP** | Emails                               | Sending and receiving emails  |
+| **DNS**            | Converts website names into IPs      | `google.com → 142.250.182.14` |
+| **TCP/IP**         | Controls how data is sent & received | Backbone of the internet      |
+
+**1. Definition of an IP Address:**
+An IP (Internet Protocol) address is a unique numerical identifier assigned to each device connected to a network that uses the Internet Protocol for communication. It facilitates the correct routing and delivery of data between devices over the internet or local networks. citeturn0search0
+
+**2. Structure of IP Addresses:**
+
+- **IPv4:** Consists of 32 bits, typically represented as four decimal numbers separated by dots (e.g., 192.168.1.1). citeturn0search2
+- **IPv6:** A newer version with 128 bits, represented as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).
+
+**3. Types of IP Addresses:**
+
+- **Public IP Address:** Assigned to devices that connect directly to the internet, allowing them to be uniquely identified globally. citeturn0search5
+- **Private IP Address:** Used within local networks (like home or office networks) and not routable on the global internet. Common private IP ranges include 192.168.x.x and 10.x.x.x.
+
+**4. Static vs. Dynamic IP Addresses:**
+
+- **Static IP Address:** Permanently assigned to a device, ensuring it always has the same IP address. citeturn0search9
+- **Dynamic IP Address:** Temporarily assigned from a pool of available addresses by a DHCP server, often changing over time.
+
+**5. Functionality of IP Addresses:**
+IP addresses serve two primary purposes:
+
+- **Identification:** Uniquely identifying a device on a network.
+- **Location Addressing:** Providing information about the device's location within the network to facilitate proper routing of data.
+
+### **📌 JSON.stringify() vs JSON.parse() in JavaScript**
+
+JSON (JavaScript Object Notation) is a format for storing and exchanging data. In JavaScript, `JSON.stringify()` and `JSON.parse()` are two important methods used for converting between **JavaScript objects** and **JSON format**.
+
+---
+
+## **🔹 JSON.stringify()**
+
+**Converts a JavaScript object into a JSON string.**
+
+📌 **Use Case:** When you need to send data (like API requests) or store it (like in `localStorage`).
+
+### **🔹 Example**
+
+```js
+const user = { name: "John", age: 30, city: "New York" };
+const jsonString = JSON.stringify(user);
+
+console.log(jsonString);
+// Output: '{"name":"John","age":30,"city":"New York"}'
+```
+
+- Converts the **JavaScript object** into a **JSON string**.
+- JSON strings can be stored, sent, or used in APIs.
+
+---
+
+## **🔹 JSON.parse()**
+
+**Converts a JSON string back into a JavaScript object.**
+
+📌 **Use Case:** When receiving JSON data from an API or retrieving it from storage.
+
+### **🔹 Example**
+
+```js
+const jsonString = '{"name":"John","age":30,"city":"New York"}';
+const userObj = JSON.parse(jsonString);
+
+console.log(userObj.name);
+// Output: John
+console.log(userObj.age);
+// Output: 30
+```
+
+- Converts a **JSON string** back into a **JavaScript object**.
+- The parsed object can now be used like a normal JavaScript object.
+
+---
+
+## **🔹 Key Differences**
+
+| Method             | Purpose                      | Input             | Output            |
+| ------------------ | ---------------------------- | ----------------- | ----------------- |
+| `JSON.stringify()` | Convert Object → JSON String | JavaScript object | JSON string       |
+| `JSON.parse()`     | Convert JSON String → Object | JSON string       | JavaScript object |
+
+---
+
+## **🔹 Example Use Case: Storing Data in Local Storage**
+
+```js
+const user = { name: "Alice", age: 25 };
+
+// Save object in localStorage
+localStorage.setItem("user", JSON.stringify(user));
+
+// Retrieve and parse it
+const storedUser = JSON.parse(localStorage.getItem("user"));
+console.log(storedUser.name); // Output: Alice
+```
+
+- `JSON.stringify()` **stores** the object as a JSON string.
+- `JSON.parse()` **retrieves** and converts it back into an object.
+
+---
+
+## **🔹 Things to Remember**
+
+✅ `JSON.stringify()` **removes functions and undefined values** because JSON only supports numbers, strings, booleans, arrays, and objects.  
+✅ `JSON.parse()` **must be used on a valid JSON string**—if not, it throws an error.  
+✅ **Circular references in objects** (e.g., `obj.self = obj`) will cause `JSON.stringify()` to fail.
