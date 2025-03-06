@@ -1246,3 +1246,158 @@ console.log(storedUser.name); // Output: Alice
 ✅ `JSON.stringify()` **removes functions and undefined values** because JSON only supports numbers, strings, booleans, arrays, and objects.  
 ✅ `JSON.parse()` **must be used on a valid JSON string**—if not, it throws an error.  
 ✅ **Circular references in objects** (e.g., `obj.self = obj`) will cause `JSON.stringify()` to fail.
+
+#### **📌 What is a Circular Reference in JavaScript?**
+
+A **circular reference** happens when an object **references itself** directly or indirectly. This creates an **infinite loop**, which `JSON.stringify()` **cannot handle** and will result in an error.
+
+---
+
+#### **🔹 Example of a Circular Reference**
+
+```js
+const obj = {};
+obj.self = obj; // The object refers to itself
+
+console.log(obj);
+// Output: { self: [Circular] }
+
+JSON.stringify(obj); // ❌ This will fail!
+```
+
+🚨 **Error:**
+
+```
+Uncaught TypeError: Converting circular structure to JSON
+```
+
+This happens because when `JSON.stringify()` tries to convert the object into a JSON string, it keeps following the `self` reference back to the same object **forever**, causing an infinite loop.
+
+---
+
+#### **🔹 Real-World Example**
+
+Imagine you have a **person** object where each person has a **friend**, but the friend refers back to the original person.
+
+```js
+let person1 = { name: "Alice" };
+let person2 = { name: "Bob", friend: person1 };
+person1.friend = person2; // Circular reference
+
+JSON.stringify(person1); // ❌ ERROR: Circular structure detected
+```
+
+Here, `person1` has a `friend`, which is `person2`, and `person2` has a `friend`, which is `person1`—**a loop is created**.
+
+## HTTP
+
+Hypertext Transfer Protocol (HTTP) is an application-layer (in [OSI](#osi-model) model) protocol for transmitting hypermedia documents, such as HTML. It was designed for communication between web browsers and web servers, but it can also be used for other purposes, such as machine-to-machine communication, programmatic access to APIs, and more.
+
+### OSI-Model
+
+The OSI (Open Systems Interconnection) Model is a set of rules that explains how different computer systems communicate over a network. OSI Model was developed by the International Organization for Standardization (ISO). The OSI Model consists of 7 layers and each layer has specific functions and responsibilities.
+
+### **GET, POST, PATCH, DELETE, CRUD, and GET vs POST in JavaScript**
+
+These terms are related to HTTP methods used in RESTful APIs and JavaScript for handling requests.
+
+---
+
+## **1. HTTP Methods & CRUD Operations**
+
+HTTP methods are used to communicate with servers, and they align with CRUD operations:
+
+| **HTTP Method** | **CRUD Operation** | **Description**                         |
+| --------------- | ------------------ | --------------------------------------- |
+| **GET**         | Read (Retrieve)    | Fetches data from a server.             |
+| **POST**        | Create (Insert)    | Sends new data to the server.           |
+| **PATCH**       | Update (Modify)    | Updates part of an existing resource.   |
+| **PUT**         | Update (Replace)   | Replaces an existing resource entirely. |
+| **DELETE**      | Delete (Remove)    | Removes data from the server.           |
+
+---
+
+## **2. GET vs POST in JavaScript**
+
+Both GET and POST are commonly used HTTP methods, but they have key differences:
+
+| **Feature**         | **GET**                                         | **POST**                                     |
+| ------------------- | ----------------------------------------------- | -------------------------------------------- |
+| **Usage**           | Fetches data from the server.                   | Sends new data to the server.                |
+| **Data in Request** | Sent via URL (query parameters).                | Sent in the request body.                    |
+| **Security**        | Less secure (visible in URL, cacheable).        | More secure (not stored in URL, not cached). |
+| **Idempotent?**     | Yes (multiple requests return the same result). | No (each request creates a new resource).    |
+| **Caching**         | Can be cached.                                  | Usually not cached.                          |
+
+---
+
+## **3. Examples in JavaScript (Fetch API)**
+
+### **GET Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Retrieves data** from the server.
+
+---
+
+### **POST Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title: "New Post", body: "Post content", userId: 1 }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log("Created:", data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Sends new data** to the server.
+
+---
+
+### **PATCH Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "PATCH",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title: "Updated Title" }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log("Updated:", data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Partially updates** an existing resource.
+
+---
+
+### **DELETE Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "DELETE",
+})
+  .then((response) => console.log("Deleted successfully"))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Removes a resource** from the server.
+
+---
+
+### **Conclusion**
+
+- **GET** = Retrieve data
+- **POST** = Create new data
+- **PATCH** = Modify existing data
+- **DELETE** = Remove data
+- **GET vs POST** = GET is for reading, POST is for sending new data.
