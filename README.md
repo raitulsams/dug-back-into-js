@@ -1,0 +1,2035 @@
+## `NodeList` and `HTMLCollection`
+
+Both are array-like objects that represent collections of DOM elements.
+
+### 1. **Type of Elements**
+
+- **`NodeList`**: Can contain any type of nodes (e.g., element nodes, text nodes, comment nodes).
+- **`HTMLCollection`**: Only contains element nodes (`HTMLElement` objects).
+
+### 2. **Methods and Properties**
+
+- **`NodeList`**: Has fewer methods, but `NodeList` (from `querySelectorAll`) supports `forEach()`.
+- **`HTMLCollection`**: Has more specific methods like `namedItem()`, which allows access by `id` or `name` attribute.
+
+### 3. **Live vs. Static**
+
+- **`NodeList`**:
+  - If returned by `querySelectorAll()`, it is **static** (does not update automatically).
+  - If returned by `childNodes`, it is **live** (updates when DOM changes).
+- **`HTMLCollection`**: Always **live**, meaning it updates when the DOM changes.
+
+### 4. **How They Are Obtained**
+
+- **`NodeList`**:
+  - Obtained via `document.querySelectorAll()`, `childNodes`, etc.
+- **`HTMLCollection`**:
+  - Obtained via `document.getElementsByTagName()`, `document.getElementsByClassName()`, etc.
+
+### Example:
+
+```javascript
+// NodeList (Static)
+let nodeList = document.querySelectorAll("p");
+console.log(nodeList.length); // Does not change even if new <p> elements are added
+
+// HTMLCollection (Live)
+let htmlCollection = document.getElementsByTagName("p");
+console.log(htmlCollection.length); // Updates if new <p> elements are added
+```
+
+### **Which One to Use?**
+
+- Use **`querySelectorAll()`** (`NodeList`) when you don’t need live updates.
+- Use **`getElementsByTagName()` / `getElementsByClassName()`** (`HTMLCollection`) if you want automatic updates when elements are added or removed.
+
+### Key:
+
+1. NodeList supports forEach(), but HTMLCollection does not.
+2. NodeList is array-like and has a forEach() method.
+3. HTMLCollection does not have forEach(), so you must convert it into an array first.
+
+## innerHTML vs innerText
+
+`innerHTML` and `innerText` are both properties in JavaScript that are used to access or modify the content of HTML elements, but they serve different purposes:
+
+1. **`innerHTML`:**
+
+   - This property retrieves or sets the HTML markup (including HTML tags) inside an element.
+   - When you use `innerHTML`, it includes any HTML structure, such as `<b>`, `<i>`, or even `<div>` tags.
+   - It's useful when you want to work with HTML content, including formatting and nested elements.
+
+   **Example:**
+
+   ```html
+   <div id="myDiv"><strong>Hello</strong> World!</div>
+   ```
+
+   ```javascript
+   let content = document.getElementById("myDiv").innerHTML;
+   console.log(content); // Outputs: <strong>Hello</strong> World!
+   ```
+
+2. **`innerText`:**
+
+   - This property retrieves or sets only the **text content** inside an element, excluding any HTML tags.
+   - It gives you the "rendered" text as it appears to the user, which can be affected by CSS (like `display: none`).
+   - It’s mainly used when you want to work with just the plain text without any HTML markup.
+
+   **Example:**
+
+   ```html
+   <div id="myDiv"><strong>Hello</strong> World!</div>
+   ```
+
+   ```javascript
+   let content = document.getElementById("myDiv").innerText;
+   console.log(content); // Outputs: Hello World!
+   ```
+
+### Key Differences:
+
+- **HTML vs. Text:** `innerHTML` returns everything, including HTML elements, while `innerText` gives you just the visible text.
+- **Rendering and Formatting:** `innerText` takes into account styles that affect visibility (like `display: none`), while `innerHTML` just returns whatever is in the element, regardless of CSS.
+
+## **1️⃣ Why Do We Need Primitive Types? (Efficient & Simple)**
+
+Primitive types are **simple values** stored **directly in memory (stack)**. They are essential for:
+
+### **🔹 Fast Access & Performance**
+
+- Since they are stored in the **stack memory**, accessing them is **faster**.
+- Example:
+  ```javascript
+  let x = 10;
+  let y = x; // Copying value
+  y = 20; // Only y changes, x remains 10
+  ```
+
+### **🔹 Immutability (Prevents Unwanted Changes)**
+
+- Primitive values **cannot be modified** once created.
+- Example:
+  ```javascript
+  let str = "Hello";
+  str[0] = "J"; // ❌ This won't work
+  console.log(str); // "Hello"
+  ```
+
+### **🔹 Memory Efficiency**
+
+- Since primitives are stored **by value**, they take up **less space** than objects.
+
+### **🔹 Essential for Comparisons**
+
+- They are compared **by value**, making operations like sorting and filtering easier.
+- Example:
+  ```javascript
+  console.log(10 === 10); // ✅ true
+  ```
+
+**✅ Use Primitives When:**
+✔ You need **simple values** (numbers, strings, booleans).  
+✔ You want **fast access** and **less memory usage**.  
+✔ You need values that **shouldn’t change (immutability)**.
+
+---
+
+## **2️⃣ Why Do We Need Non-Primitive Types? (Complex & Flexible)**
+
+Non-primitive types (**objects, arrays, functions**) allow storing **complex data** and **multiple values together**. They are essential for:
+
+### **🔹 Storing Multiple Related Values**
+
+- Objects allow **grouping related data** together.
+- Example (Car Object):
+  ```javascript
+  let car = { brand: "BMW", model: "X5", year: 2023 };
+  console.log(car.brand); // "BMW"
+  ```
+
+### **🔹 Mutability (Modifiable Data)**
+
+- Unlike primitives, objects **can be updated** without replacing them.
+- Example:
+  ```javascript
+  let person = { name: "Alice", age: 25 };
+  person.age = 26; // ✅ Allowed
+  ```
+
+### **🔹 Dynamic Data Structures**
+
+- Arrays help store **multiple elements** efficiently.
+- Example (List of Car Models):
+  ```javascript
+  let cars = ["BMW", "Audi", "Tesla"];
+  console.log(cars[1]); // "Audi"
+  ```
+
+### **🔹 Functions as First-Class Citizens**
+
+- Functions are **objects** and can be assigned to variables, passed as arguments.
+- Example:
+  ```javascript
+  function greet() {
+    console.log("Hello!");
+  }
+  let sayHello = greet;
+  sayHello(); // "Hello!"
+  ```
+
+### **🔹 Memory Efficiency (Reference Sharing)**
+
+- Objects are stored **in heap memory** and shared using **references**, reducing memory waste.
+- Example:
+  ```javascript
+  let obj1 = { a: 1 };
+  let obj2 = obj1; // Reference to same object
+  obj2.a = 2;
+  console.log(obj1.a); // 2 (both changed)
+  ```
+
+**✅ Use Non-Primitives When:**
+✔ You need **complex structures** (objects, arrays, functions).  
+✔ You need **dynamic and modifiable data**.  
+✔ You want to **store multiple values** together.
+
+---
+
+## **🔥 Key Differences:**
+
+| Feature               | Primitive                       | Non-Primitive                             |
+| --------------------- | ------------------------------- | ----------------------------------------- |
+| **Storage**           | **Stack (direct value)**        | **Heap (reference in stack)**             |
+| **Mutability**        | **Immutable**                   | **Mutable**                               |
+| **Comparison**        | Compared **by value**           | Compared **by reference**                 |
+| **Memory Efficiency** | **Less memory (faster access)** | **More memory (flexible but slower)**     |
+| **Use Case**          | Simple data (numbers, strings)  | Complex data (objects, arrays, functions) |
+
+Great question! In JavaScript, **strings behave like arrays in some ways, but they are still immutable**. Let’s break it down.
+
+---
+
+## **1️⃣ Why Can You Access a String Like an Array?**
+
+JavaScript **treats strings as an array-like structure**, meaning you can access individual characters using **index notation (**``**\*\*\*\*)**.
+
+### **Example:**
+
+```javascript
+let str = "Hello";
+console.log(str[0]); // "H"
+console.log(str[1]); // "e"
+console.log(str[4]); // "o"
+```
+
+This works **because strings are sequences of characters, similar to arrays**. But, unlike arrays, **you cannot modify individual characters**.
+
+---
+
+## **2️⃣ Why Can't You Modify a String Character? (Immutability)**
+
+Even though strings **look like arrays**, they are **primitive and immutable** in JavaScript. This means:
+
+- You **can read** characters using indexes (`str[0]`).
+- But **you cannot modify** a character directly (`str[0] = "J"` ❌).
+
+### **Example:**
+
+```javascript
+let str = "Hello";
+str[0] = "J"; // ❌ Won't work!
+console.log(str); // "Hello" (unchanged)
+```
+
+🔹 Instead of modifying the original string, **you must create a new string**.
+
+---
+
+## **3️⃣ How to Modify a String? (Create a New One)**
+
+Since strings are **immutable**, you have to create a **new string** when making changes.
+
+### **Example (Fixing the **``** Issue)**
+
+```javascript
+let str = "Hello";
+str = "J" + str.slice(1); // Create a new string
+console.log(str); // "Jello"
+```
+
+✅ **Explanation:**
+
+- `"J"` replaces `"H"`.
+- `str.slice(1)` takes everything from index **1** onward (`"ello"`).
+- `"J" + "ello"` creates **a new string** `"Jello"`.
+
+---
+
+## **4️⃣ Difference Between Strings & Arrays**
+
+| Feature            | String                                | Array                             |
+| ------------------ | ------------------------------------- | --------------------------------- |
+| **Indexed Access** | ✅ Yes (`str[0]`)                     | ✅ Yes (`arr[0]`)                 |
+| **Modification**   | ❌ No (`str[0] = "J"` won’t work)     | ✅ Yes (`arr[0] = "J"` works)     |
+| **Mutability**     | ❌ Immutable (must create new string) | ✅ Mutable (can modify elements)  |
+| **Methods**        | Fewer (`slice()`, `replace()`, etc.)  | More (`push()`, `splice()`, etc.) |
+
+---
+
+## **5️⃣ Why Are Strings Immutable?**
+
+- JavaScript **stores strings in memory efficiently** using **shared references**.
+- If they were mutable, changing one string in memory would **affect other variables** using the same value.
+- **Immutability helps with performance and security**.
+
+### **🔍 What Happens Internally When You Reassign a String in JavaScript?**
+
+When you do:
+
+```javascript
+let a = "sams";
+a = "raitul";
+```
+
+You are **not modifying** the original string `"sams"`—you are **creating a new string** and updating `a` to reference the new value. Let’s explore this in depth.
+
+---
+
+## **1️⃣ Memory Allocation: Stack vs. Heap**
+
+JavaScript manages memory in two main areas:  
+✅ **Stack Memory** (for primitive values like strings, numbers)  
+✅ **Heap Memory** (for objects, arrays, functions)
+
+Since **strings are primitives**, they are stored in the **stack**.
+
+### **Step-by-Step Breakdown**
+
+### **📌 Step 1: Creating `"sams"` and Assigning to `a`**
+
+```javascript
+let a = "sams";
+```
+
+- A new **string `"sams"` is created in memory**.
+- The variable `a` is stored in the **stack** and **points to `"sams"`**.
+
+🛠 **Memory Structure:**
+
+```
+Stack:
+a  → "sams"
+```
+
+---
+
+### **📌 Step 2: Reassigning `a` to `"raitul"`**
+
+```javascript
+a = "raitul";
+```
+
+- JavaScript **creates a new string `"raitul"`** in memory.
+- `a` **now points to `"raitul"`, breaking its link to `"sams"`**.
+- `"sams"` is **not modified**—it is just **left unused**.
+
+🛠 **Updated Memory Structure:**
+
+```
+Stack:
+a  → "raitul"  // "sams" is now unreferenced
+```
+
+- If no other variable references `"sams"`, **JavaScript’s Garbage Collector** will eventually remove it.
+
+---
+
+## **2️⃣ How Garbage Collection Works Here?**
+
+JavaScript automatically **cleans up unused memory** through **garbage collection**.
+
+- `"sams"` becomes **unreachable** when `a` stops pointing to it.
+- The **garbage collector** sees that no variable references `"sams"` anymore.
+- It **removes `"sams"` from memory**, freeing space.
+
+🔍 **When does garbage collection run?**
+
+- JavaScript uses a **mark-and-sweep algorithm** to detect unused objects.
+- It **doesn’t happen immediately** but runs **when memory needs to be freed**.
+
+---
+
+## **3️⃣ What If We Had Another Reference to `"sams"`?**
+
+If another variable **still holds `"sams"`,** it won't be deleted:
+
+```javascript
+let a = "sams";
+let b = a; // 'b' now also references "sams"
+a = "raitul"; // 'a' now points to "raitul", but 'b' still holds "sams"
+```
+
+🛠 **Memory Structure:**
+
+```
+Stack:
+a  → "raitul"
+b  → "sams"   // Since 'b' still references "sams", it won't be garbage collected
+```
+
+✔ `"sams"` **remains in memory** because `b` still references it.
+
+---
+
+## **4️⃣ Why Are Strings Immutable?**
+
+JavaScript **does not modify existing strings** because:  
+1️⃣ **Efficiency** – Strings are often shared, and modifying one could affect other variables.  
+2️⃣ **Security** – Prevents unintended side effects.  
+3️⃣ **Memory Management** – Immutable strings can be optimized by the JavaScript engine.
+
+🔍 **Example of how this prevents issues:**
+
+```javascript
+let a = "sams";
+let b = a;
+a = "raitul"; // If strings were mutable, 'b' would also change. But it doesn't!
+console.log(b); // "sams"
+```
+
+✔ This ensures `b` **doesn’t change unexpectedly**.
+
+---
+
+## **📌 Key Takeaways**
+
+✔ **Strings are stored in the stack and are immutable.**  
+✔ **When reassigned, a new string is created, and the old one is left unused.**  
+✔ **JavaScript garbage collects unreferenced strings.**  
+✔ **Immutable strings prevent unintended side effects.**
+
+### **🔍 Rest Operator (`...`) vs Spread Operator (`...`) in JavaScript**
+
+Both **rest** and **spread** use the same `...` syntax, but they work **differently** based on how they're used.
+
+---
+
+## **📌 1️⃣ Rest Operator (`...`) – Collects Elements**
+
+The **rest operator** is used in **destructuring** to **gather multiple values into an array or object**.
+
+### **✅ Example: Rest Operator in Array Destructuring**
+
+```javascript
+let myArr = ["Nike", 23, 34];
+
+// 'a' gets "Nike", and 'b' collects the rest as an array
+let [a, ...b] = myArr;
+
+console.log(a); // "Nike"
+console.log(b); // [23, 34]  <-- collected as an array
+```
+
+### **✅ Example: Rest Operator in Function Parameters**
+
+```javascript
+function sum(...numbers) {
+  return numbers.reduce((acc, num) => acc + num, 0);
+}
+
+console.log(sum(10, 20, 30, 40)); // 100
+```
+
+✔ The rest operator collects **all function arguments** into an array.
+
+## **📌 2️⃣ Spread Operator (`...`) – Expands Elements**
+
+The **spread operator** is used to **expand elements** from an array, object, or iterable.
+
+### **✅ Example: Spread Operator in Arrays**
+
+```javascript
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+
+let combined = [...arr1, ...arr2];
+console.log(combined); // [1, 2, 3, 4, 5, 6]
+```
+
+✔ The spread operator **expands** elements from `arr1` and `arr2` into a **new array**.
+
+---
+
+### **✅ Example: Spread Operator in Objects**
+
+```javascript
+let user = { name: "Alice", age: 25 };
+let updatedUser = { ...user, city: "Berlin" };
+
+console.log(updatedUser);
+// { name: "Alice", age: 25, city: "Berlin" }
+```
+
+✔ The spread operator **copies object properties** into a new object.
+
+## **🔍 Key Differences**
+
+| Feature     | **Rest Operator (`...`)**                                        | **Spread Operator (`...`)**                                       |
+| ----------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Purpose** | **Collects** values into an array/object                         | **Expands** values from an array/object                           |
+| **Usage**   | Used in **destructuring** (arrays/objects) & function parameters | Used in **function arguments, array merging, and object cloning** |
+| **Example** | `let [a, ...b] = myArr;` (b collects rest)                       | `let newArr = [...oldArr];` (copies elements)                     |
+
+---
+
+## **📌 Quick Rule of Thumb**
+
+✔ If you are **collecting** values → Use **rest (`...`)**  
+✔ If you are **spreading** values → Use **spread (`...`)**
+
+## COMMON ES6 INTERVIEW QUESTIONS 1
+
+1. What is ES6? Have you ever used anything from ES6?
+2. Explain the difference between var, let and const.
+3. What is the arrow function, and how to create it?
+4. Give an example of an Arrow function in ES6? List down its advantages.
+5. Discuss spread operator in ES6 with an example.
+6. What do you understand about default parameters?
+7. What are template literals in ES6?
+8. Tell us the difference between arrow and regular function.
+9. Tell us the difference between seal and freeze.
+10. Tell us the difference between for...of and for...in.
+
+## Paramete vs Arguments
+
+Parameter: Variables of functions
+Argument: values/variables; While calling function.
+
+## COMMON INTERVIEW QUESTIONS 2
+
+1. What's the difference between map, foreach, filter?
+2. What's the difference between filter and find?
+3. What is the difference between for..of and for..in?
+4. How do you empty an array?
+5. Difference between class and object.
+6. What is a Prototype chain? Or how does inheritance work in JavaScript?
+7. What does destructing do in es6?
+8. Is optional chaining is same as ternary operator?
+9. What do you mean by dot notation and bracket notation? When should you use dot notation or
+   bracket notation?
+
+## Necessity of destructuring
+
+1. A technique for unpacking objects, arrays, and assigning them to variables
+2. Helps to deal with functions that have a lot of parameters, default values
+3. Is convenient to write, easy to maintain and friendly to read
+4. Saves from writing repetitive code
+
+## Return type filter, find, map and reduce
+
+1. **`filter()`**
+
+   - **Return Type:** `Array`
+   - **Description:** Creates a new array containing all elements that pass the provided test function.
+
+2. **`find()`**
+
+   - **Return Type:** `Element | undefined`
+   - **Description:** Returns the first element that satisfies the provided test function; otherwise, it returns `undefined`.
+
+3. **`reduce()`**
+
+   - **Return Type:** `Any` (Depends on the accumulator)
+   - **Description:** Reduces the array to a single value based on the callback function.
+
+4. **`map()`**
+   - **Return Type:** `Array`
+   - **Description:** Creates a new array populated with the results of calling a provided function on every element.
+
+### Summary:
+
+| Method   | Return Type                    |
+| -------- | ------------------------------ |
+| `filter` | `Array`                        |
+| `find`   | `Element or undefined`         |
+| `reduce` | `Any` (determined by callback) |
+| `map`    | `Array`                        |
+
+## undefined and null:
+
+| Value       | `typeof` Output  | Explanation                               |
+| ----------- | ---------------- | ----------------------------------------- |
+| `undefined` | `"undefined"`    | Default value for uninitialized variables |
+| `null`      | `"object"` (bug) | Represents intentional absence of value   |
+
+## Truthy & Falsy value in js
+
+In JavaScript, **falsy** values are values that evaluate to `false` when used in a boolean context (like an `if` statement).
+
+### **Falsy Values in JavaScript:**
+
+There are exactly **7 falsy values** in JavaScript:
+
+1. **`false`** → The boolean `false` itself
+2. **`0`** → The number zero (including `-0` and `0n` for BigInt)
+3. **`""` (empty string)** → A string with no characters
+4. **`null`** → Represents an intentional absence of a value
+5. **`undefined`** → Represents an uninitialized value
+6. **`NaN`** → "Not-a-Number" value
+7. **`document.all`** (weird quirk, acts like `undefined` in modern browsers)
+
+```js
+const values = [false, 0, "", null, undefined, NaN];
+
+values.forEach((value) => {
+  console.log(value, "is falsy:", !value);
+});
+```
+
+Or using `Boolean()`:
+
+```js
+console.log(Boolean(false)); // false
+console.log(Boolean(0)); // false
+console.log(Boolean("")); // false
+console.log(Boolean(null)); // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean(NaN)); // false
+```
+
+### **Using `!` in Conditional Statements**
+
+You can use `!value` directly in an `if` statement to check for falsy values.
+
+### **Using `!!` in Conditional Statements**
+
+You can use `!!value` directly in an `if` statement to check for truthy values.
+
+## What is Type Conversion/Coercion?
+
+- Type conversion is the process of converting a value from one type to another. Values in JavaScript can be of different types. You could have a number, string, object, boolean. Sometimes, you may want to convert data from one type to another to fit a certain operation.
+
+- Type conversion can either be `implicit` (automatically done during code execution) or `explicit` (done by you the developer).
+
+- Implicit Type Conversion is also known as Coercion while Explicit Type Conversion is also known as Type Casting.
+
+```js
+const string = "";
+const number = 40;
+const boolean = true;
+
+console.log(!string);
+// true - string is coerced to boolean `false`, then the NOT operator negates it
+
+console.log(boolean + string);
+// "true" - boolean is coerced to string "true", and concatenated with the empty string
+
+console.log(40 + true);
+// 41 - boolean is coerced to number 1, and summed with 40
+```
+
+### Some facts
+
+console.log(5 == "5"); // true (String "5" is coerced to Number 5)
+console.log(5 === "5"); // false (Different types)
+console.log(true == 1); // true (true → 1)
+console.log(true === 1); // false (Different types)
+console.log(null == undefined); // true (both are "empty" values)a
+console.log(null === undefined); // false (different types)
+console.log(0 == false); // true (false → 0)
+console.log(0 === false); // false (different types)
+
+## Note: Non-primtive datatypes check the reference (Mostly not works with equal operator) while using `==` / `===` equal operators wheres primitive check the values.
+
+### Js is on it's way
+
+#### true + false // 1
+
+Binary + operator triggers numeric conversion for true and false:
+true + false
+==> 1 + 0
+==> 1
+
+#### 12 / "6" // 2
+
+Arithmetic division operator / triggers numeric conversion for string '6':
+12 / '6'
+==> 12 / 6
+==>> 2
+
+#### "number" + 15 + 3 // 'number153'
+
+Operator + has left-to-right associativity, so expression "number" + 15 runs first. Since one operand is a string, + operator triggers string conversion for the number 15. On the second step expression "number15" + 3 is evaluated similarly:
+
+“number” + 15 + 3
+==> "number15" + 3
+==> "number153"
+
+#### 15 + 3 + "number" // '18number'
+
+15 + 3 + "number"
+==> 18 + "number"
+==> "18number"
+
+#### [1] > null // true
+
+Comparison operator `>` triggers numeric conversion for [1] and null:
+[1] > null
+==> '1' > 0
+==> 1 > 0
+==> true
+
+#### "foo" + + "bar" // 'fooNaN'
+
+Unary + operator has higher precedence over binary + operator. So +'bar' expression evaluates first. Unary plus triggers numeric conversion for string 'bar'. Since the string does not represent a valid number, the result is NaN. On the second step, expression 'foo' + NaN is evaluated:
+"foo" + + "bar"
+==> "foo" + (+"bar")
+==> "foo" + NaN
+==> "fooNaN"
+
+#### 'true' == true // false
+
+`==` operator triggers numeric conversion, string 'true' is converted to NaN, boolean true is converted to 1.
+'true' == true
+==> NaN == 1
+==> false
+
+#### false == 'false' // false
+
+false == 'false'  
+==> 0 == NaN
+==> false
+
+#### null == '' // false
+
+== usually triggers numeric conversion, but it’s not the case with null. null equals to null or undefined only, and does not equal to anything else:
+null == ''
+==> false
+
+#### !!"false" == !!"true" // true
+
+`!!` operator converts both 'true' and 'false' strings to boolean true, since they are non-empty strings. Then, `==` just checks equality of two boolean true's without any coercion:
+!!"false" == !!"true"  
+==> true == true
+==> true
+
+#### ['x'] == 'x' // true
+
+When an array is compared with a string, js first converts the array to a primitive using the toString() method.
+['x'] == 'x'  
+==> 'x' == 'x'
+==> true
+
+#### [] + null + 1 // 'null1'
+
+[] + null + 1  
+==> '' + null + 1  
+==> 'null' + 1  
+==> 'null1'
+
+Logical || and && operators coerce operands to boolean, but return original operands (not booleans). 0 is falsy, whereas '0' is truthy, because it’s a non-empty string. {} empty object is truthy as well:
+0 || "0" && {}  
+==> (0 || "0") && {}
+==> (false || true) && true // internally
+==> "0" && {}
+==> true && true // internally
+==> {}
+
+#### [1,2,3] == [1,2,3] // false
+
+No coercion is needed because both operands have same type. Since `==` checks for object identity (and not for object equality) and the two arrays are two different instances, the result is false.
+[1,2,3] == [1,2,3]
+==> false
+
+#### Note:
+
+When you use == (or ===), objects (including arrays) are compared by reference, not by value.
+This means that two arrays are only == or === if they point to the exact same memory location.
+
+#### {}+[]+{}+[1] // '0[object Object]1'
+
+All operands are non-primitive values, so + starts with the leftmost triggering numeric conversion. Both Object’s and Array’s valueOf method returns the object itself, so it’s ignored. toString() is used as a fallback. The trick here is that first {} is not considered as an object literal, but rather as a block declaration statement, so it’s ignored. Evaluation starts with next +[] expression, which is converted to an empty string via toString() method and then to 0:
+
+{}+[]+{}+[1]
+==> +[]+{}+[1]
+==> 0 + {} + [1]
+==> 0 + '[object Object]' + [1]
+==> '0[object Object]' + [1]
+==> '0[object Object]' + '1'
+==> '0[object Object]1'
+
+#### !+[]+[]+![] // 'truefalse'
+
+!+[]+[]+![]  
+==> (!+[]) + [] + (![])
+==> !0 + [] + false
+==> true + [] + false
+==> true + '' + false
+==> 'truefalse'
+
+#### new Date(0) - 0 // 0
+
+`-` operator triggers numeric conversion for Date. Date.valueOf() returns number of milliseconds since Unix epoch:
+new Date(0) - 0
+==> 0 - 0
+==> 0
+
+#### new Date(0) + 0 // 'Thu Jan 01 1970 02:00:00(EET)0'
+
+`+` operator triggers default conversion. Date assumes string conversion as a default one, so toString() method is used, rather than valueOf():
+new Date(0) + 0
+==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)' + 0
+==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)0'
+
+## **JavaScript Hoisting**
+
+Hoisting in JavaScript is a behavior where variable and function declarations are moved ("hoisted") to the top of their scope before the code execution.
+
+However, only the **declarations** are hoisted, not the initializations.
+
+---
+
+## **1. Hoisting with `var`**
+
+When you declare a variable using `var`, JavaScript moves the declaration to the top of its scope but **not the assignment**.
+
+```js
+console.log(a); // undefined (not an error)
+var a = 10;
+console.log(a); // 10
+```
+
+🔹 **Why undefined?**  
+Because `var a;` is hoisted to the top, but `a = 10;` stays in place.
+
+Internally, JavaScript interprets it as:
+
+```js
+var a;
+console.log(a); // undefined
+a = 10;
+console.log(a); // 10
+```
+
+---
+
+## **2. Hoisting with `let` and `const`**
+
+Variables declared with `let` and `const` are also hoisted, but they are in a **Temporal Dead Zone (TDZ)** until initialized.
+
+```js
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 20;
+console.log(b); // ✅ 20
+```
+
+The same applies to `const`:
+
+```js
+console.log(c); // ❌ ReferenceError
+const c = 30;
+console.log(c);
+```
+
+---
+
+## **3. Hoisting with Functions**
+
+### **Function Declarations**
+
+Function declarations are **fully hoisted**, meaning you can call the function before its declaration.
+
+```js
+greet(); // ✅ "Hello!"
+
+function greet() {
+  console.log("Hello!");
+}
+```
+
+Internally, JavaScript moves the whole function to the top:
+
+```js
+function greet() {
+  console.log("Hello!");
+}
+
+greet();
+```
+
+### **Function Expressions (`var`, `let`, `const`)**
+
+Function expressions **are not hoisted** the same way.
+
+#### **Using `var`**
+
+```js
+console.log(sayHi); // undefined
+sayHi(); // ❌ TypeError: sayHi is not a function
+
+var sayHi = function () {
+  console.log("Hi!");
+};
+```
+
+🔹 The variable `sayHi` is hoisted but initialized as `undefined`.
+
+#### **Using `let` or `const`**
+
+```js
+console.log(sayHello); // ❌ ReferenceError
+const sayHello = function () {
+  console.log("Hello!");
+};
+```
+
+🔹 `let` and `const` follow TDZ rules, so accessing before declaration throws an error.
+
+## JavaScript Closure
+
+### **What is a Closure?**
+
+A **closure** happens when an inner function "remembers" the variables from its outer function, even after the outer function has finished running.
+
+### **Explanation**
+
+1. **Lexical Scope** means that a function knows about variables in the place where it was created.
+2. Normally, when a function runs, its local variables (variables inside the function) disappear after execution.
+3. But **a closure keeps those variables alive** by remembering them, even if the outer function is gone.
+
+---
+
+### **Example 1: Closure in Action**
+
+```javascript
+function outerFunction() {
+  let message = "Hello, Closure!"; // Variable inside outerFunction
+
+  return function innerFunction() {
+    console.log(message); // innerFunction "remembers" message
+  };
+}
+
+const closureFunction = outerFunction(); // outerFunction runs and returns innerFunction
+closureFunction(); // Output: Hello, Closure!
+```
+
+#### **Why does this work?**
+
+- `innerFunction` was **created inside** `outerFunction`, so it **remembers** `message` (lexical scope).
+- Even though `outerFunction()` has **finished executing**, `message` is still accessible to `innerFunction`.
+- This is **a closure**—a function remembering variables even after its parent function is gone.
+
+---
+
+### **Example 2: Practical Use Case – Private Counter**
+
+Closures are useful for **data privacy**.
+
+```javascript
+function createCounter() {
+  let count = 0; // Private variable
+
+  return {
+    increment: function () {
+      count++;
+      console.log(count);
+    },
+    decrement: function () {
+      count--;
+      console.log(count);
+    },
+  };
+}
+
+const counter = createCounter();
+counter.increment(); // 1
+counter.increment(); // 2
+counter.decrement(); // 1
+```
+
+#### **What’s happening here?**
+
+- `count` is inside `createCounter()`, so it's **not directly accessible** outside.
+- But `increment` and `decrement` can **still access count** because of the closure.
+- This keeps `count` **private and safe**.
+
+## `arguments` Object in JavaScript
+
+The **`arguments`** object is an **array-like** object available inside functions that allows access to all arguments passed to the function, even if they are not explicitly declared as parameters.
+
+### Key Features:
+
+1. **Works only in non-arrow functions**:  
+   The `arguments` object is not available in **arrow functions**.
+2. **Contains all passed arguments**:  
+   It includes even those arguments that were not declared in the function signature.
+3. **Array-like but not an actual array**:  
+   It has a `length` property but lacks array methods like `map()`, `forEach()`, etc.
+
+---
+
+### Example Usage:
+
+```javascript
+function sum() {
+  let total = 0;
+  console.log(arguments); //[Arguments] { '0': 2, '1': 4, '2': 6, '3': 8, '4': 10 }
+  for (let i = 0; i < arguments.length; i++) {
+    total += arguments[i]; // Accessing arguments dynamically
+  }
+  return total;
+}
+
+console.log(sum(2, 4, 6, 8, 10)); // Output: 30
+```
+
+Here, `arguments` allows handling a variable number of arguments without explicitly defining parameters.
+
+---
+
+### `arguments.length`:
+
+You can check how many arguments were passed using `arguments.length`.
+
+```javascript
+function checkArgs() {
+  console.log("Number of arguments passed:", arguments.length);
+}
+
+checkArgs(1, 2, 3); // Output: Number of arguments passed: 3
+checkArgs(); // Output: Number of arguments passed: 0
+```
+
+---
+
+### `arguments` in Arrow Functions:
+
+Arrow functions **do not** have their own `arguments` object. If used inside an arrow function, it refers to the `arguments` of the nearest **regular function**.
+
+```javascript
+const arrowFunction = () => {
+  console.log(arguments); // ReferenceError: arguments is not defined
+};
+
+arrowFunction(1, 2, 3);
+```
+
+To work around this, use **rest parameters (`...args`)** instead.
+
+```javascript
+const sumArrow = (...args) => {
+  return args.reduce((acc, curr) => acc + curr, 0);
+};
+
+console.log(sumArrow(5, 10, 15)); // Output: 30
+```
+
+---
+
+### `arguments` vs Rest Parameters (`...args`)
+
+| Feature                       | `arguments` | Rest Parameters (`...args`) |
+| ----------------------------- | ----------- | --------------------------- |
+| Available in arrow functions  | ❌ No       | ✅ Yes                      |
+| Works in old JS versions      | ✅ Yes      | ❌ No (ES6+)                |
+| Array-like                    | ✅ Yes      | ✅ Yes (but real array)     |
+| Supports array methods        | ❌ No       | ✅ Yes                      |
+| Only named arguments included | ✅ Yes      | ✅ Yes                      |
+
+---
+
+### Summary:
+
+- **`arguments`** is an **array-like** object available in **regular functions**.
+- It includes **all** arguments passed, even if not explicitly declared.
+- It does **not** work in **arrow functions**.
+- Use **rest parameters (`...args`)** in modern JavaScript instead.
+
+## Error Debug
+
+```js
+const savingAmount = (savePercentage / 100) \* income
+```
+
+If there is a id named "income" and income is not defined or assigned a value in the particular scope then it reference the id in the DOM which return the element and it defines as global variables. We can get the value from this by using `income.value`.
+
+## Synchronous vs Asynchronous
+
+`setTimeout()` is an asynchronous function, meaning that the timer function will not pause execution of other functions in the functions stack.
+
+## Explore API
+
+# 🌍 **Understanding the Internet & APIs **
+
+Think of the internet as a **huge network of roads** 🚗 that connect different cities (computers). Every city has a unique address, and there are rules that control how cars move between them. Let’s explore these concepts one by one!
+
+---
+
+## **1️⃣ What is an API? (Application Programming Interface)**
+
+### 📌 **Imagine a Restaurant Scenario 🍽️**
+
+You're at a restaurant and want to order food. But you don’t go to the kitchen; instead, you call a **waiter** (API). The waiter:
+
+1. Takes your order 📝
+2. Gives it to the chef 👨‍🍳
+3. Brings back your food 🍲
+
+Similarly, an API acts as a **middleman** that helps different software applications communicate.
+
+### 🌟 **Example of an API in Real Life**
+
+Let’s say you open a **Weather App**. The app itself **does not know** the temperature—it asks a **Weather API** like this:
+
+```http
+GET https://api.weather.com/current?city=Berlin
+```
+
+The API replies:
+
+```json
+{
+  "temperature": "15°C",
+  "condition": "Cloudy"
+}
+```
+
+This response is **used by the app** to show the weather on your screen.
+
+💡 **In short:**
+
+- The API is like a **waiter** 🏃
+- Your request is like an **order** 🍽️
+- The server is like a **kitchen** 🍳
+
+---
+
+## **2️⃣ How Does the Internet Work? (The Postal System Analogy 📬)**
+
+The **internet** is like a giant **postal service** 📦. If you send a letter, it needs:
+
+1. **An Address** (Where is it going?)
+2. **A Route** (How will it get there?)
+3. **A Protocol** (Rules for delivery)
+
+---
+
+### **🔹 HTTP vs HTTPS (How Websites Communicate)**
+
+Think of **HTTP** and **HTTPS** as **languages** websites use to talk.
+
+| Feature  | HTTP (🚨 Old)          | HTTPS (🔒 Secure)         |
+| -------- | ---------------------- | ------------------------- |
+| Security | Not encrypted          | Uses encryption (SSL/TLS) |
+| Risk     | Hackers can steal data | Safe from hackers         |
+| Example  | `http://example.com`   | `https://example.com`     |
+
+💡 **Always prefer HTTPS**—it keeps your passwords and personal info safe!
+
+---
+
+### **🔹 Different Internet Protocols (The Different Postal Services 📦)**
+
+| Protocol           | Purpose                              | Example                       |
+| ------------------ | ------------------------------------ | ----------------------------- |
+| **HTTP/HTTPS**     | Web browsing                         | Visiting websites             |
+| **FTP**            | File transfers                       | Uploading/downloading files   |
+| **SMTP/POP3/IMAP** | Emails                               | Sending and receiving emails  |
+| **DNS**            | Converts website names into IPs      | `google.com → 142.250.182.14` |
+| **TCP/IP**         | Controls how data is sent & received | Backbone of the internet      |
+
+**1. Definition of an IP Address:**
+An IP (Internet Protocol) address is a unique numerical identifier assigned to each device connected to a network that uses the Internet Protocol for communication. It facilitates the correct routing and delivery of data between devices over the internet or local networks. citeturn0search0
+
+**2. Structure of IP Addresses:**
+
+- **IPv4:** Consists of 32 bits, typically represented as four decimal numbers separated by dots (e.g., 192.168.1.1). citeturn0search2
+- **IPv6:** A newer version with 128 bits, represented as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).
+
+**3. Types of IP Addresses:**
+
+- **Public IP Address:** Assigned to devices that connect directly to the internet, allowing them to be uniquely identified globally. citeturn0search5
+- **Private IP Address:** Used within local networks (like home or office networks) and not routable on the global internet. Common private IP ranges include 192.168.x.x and 10.x.x.x.
+
+**4. Static vs. Dynamic IP Addresses:**
+
+- **Static IP Address:** Permanently assigned to a device, ensuring it always has the same IP address. citeturn0search9
+- **Dynamic IP Address:** Temporarily assigned from a pool of available addresses by a DHCP server, often changing over time.
+
+**5. Functionality of IP Addresses:**
+IP addresses serve two primary purposes:
+
+- **Identification:** Uniquely identifying a device on a network.
+- **Location Addressing:** Providing information about the device's location within the network to facilitate proper routing of data.
+
+### **📌 JSON.stringify() vs JSON.parse() in JavaScript**
+
+JSON (JavaScript Object Notation) is a format for storing and exchanging data. In JavaScript, `JSON.stringify()` and `JSON.parse()` are two important methods used for converting between **JavaScript objects** and **JSON format**.
+
+---
+
+## **🔹 JSON.stringify()**
+
+**Converts a JavaScript object into a JSON string.**
+
+📌 **Use Case:** When you need to send data (like API requests) or store it (like in `localStorage`).
+
+### **🔹 Example**
+
+```js
+const user = { name: "John", age: 30, city: "New York" };
+const jsonString = JSON.stringify(user);
+
+console.log(jsonString);
+// Output: '{"name":"John","age":30,"city":"New York"}'
+```
+
+- Converts the **JavaScript object** into a **JSON string**.
+- JSON strings can be stored, sent, or used in APIs.
+
+---
+
+## **🔹 JSON.parse()**
+
+**Converts a JSON string back into a JavaScript object.**
+
+📌 **Use Case:** When receiving JSON data from an API or retrieving it from storage.
+
+### **🔹 Example**
+
+```js
+const jsonString = '{"name":"John","age":30,"city":"New York"}';
+const userObj = JSON.parse(jsonString);
+
+console.log(userObj.name);
+// Output: John
+console.log(userObj.age);
+// Output: 30
+```
+
+- Converts a **JSON string** back into a **JavaScript object**.
+- The parsed object can now be used like a normal JavaScript object.
+
+---
+
+## **🔹 Key Differences**
+
+| Method             | Purpose                      | Input             | Output            |
+| ------------------ | ---------------------------- | ----------------- | ----------------- |
+| `JSON.stringify()` | Convert Object → JSON String | JavaScript object | JSON string       |
+| `JSON.parse()`     | Convert JSON String → Object | JSON string       | JavaScript object |
+
+---
+
+## **🔹 Example Use Case: Storing Data in Local Storage**
+
+```js
+const user = { name: "Alice", age: 25 };
+
+// Save object in localStorage
+localStorage.setItem("user", JSON.stringify(user));
+
+// Retrieve and parse it
+const storedUser = JSON.parse(localStorage.getItem("user"));
+console.log(storedUser.name); // Output: Alice
+```
+
+- `JSON.stringify()` **stores** the object as a JSON string.
+- `JSON.parse()` **retrieves** and converts it back into an object.
+
+---
+
+## **🔹 Things to Remember**
+
+✅ `JSON.stringify()` **removes functions and undefined values** because JSON only supports numbers, strings, booleans, arrays, and objects.  
+✅ `JSON.parse()` **must be used on a valid JSON string**—if not, it throws an error.  
+✅ **Circular references in objects** (e.g., `obj.self = obj`) will cause `JSON.stringify()` to fail.
+
+#### **📌 What is a Circular Reference in JavaScript?**
+
+A **circular reference** happens when an object **references itself** directly or indirectly. This creates an **infinite loop**, which `JSON.stringify()` **cannot handle** and will result in an error.
+
+---
+
+#### **🔹 Example of a Circular Reference**
+
+```js
+const obj = {};
+obj.self = obj; // The object refers to itself
+
+console.log(obj);
+// Output: { self: [Circular] }
+
+JSON.stringify(obj); // ❌ This will fail!
+```
+
+🚨 **Error:**
+
+```
+Uncaught TypeError: Converting circular structure to JSON
+```
+
+This happens because when `JSON.stringify()` tries to convert the object into a JSON string, it keeps following the `self` reference back to the same object **forever**, causing an infinite loop.
+
+---
+
+#### **🔹 Real-World Example**
+
+Imagine you have a **person** object where each person has a **friend**, but the friend refers back to the original person.
+
+```js
+let person1 = { name: "Alice" };
+let person2 = { name: "Bob", friend: person1 };
+person1.friend = person2; // Circular reference
+
+JSON.stringify(person1); // ❌ ERROR: Circular structure detected
+```
+
+Here, `person1` has a `friend`, which is `person2`, and `person2` has a `friend`, which is `person1`—**a loop is created**.
+
+## HTTP
+
+Hypertext Transfer Protocol (HTTP) is an application-layer (in [OSI](#osi-model) model) protocol for transmitting hypermedia documents, such as HTML. It was designed for communication between web browsers and web servers, but it can also be used for other purposes, such as machine-to-machine communication, programmatic access to APIs, and more.
+
+### OSI-Model
+
+The OSI (Open Systems Interconnection) Model is a set of rules that explains how different computer systems communicate over a network. OSI Model was developed by the International Organization for Standardization (ISO). The OSI Model consists of 7 layers and each layer has specific functions and responsibilities.
+
+HTTP response status codes are three-digit numbers returned by a server to indicate the result of a client's request. They are categorized into five classes:
+
+### **1xx – Informational**
+
+Indicates that the request was received and understood, and the server is processing it.
+
+- **100 Continue** – The server has received the request headers and is waiting for the body.
+- **101 Switching Protocols** – The server is switching protocols as requested by the client.
+- **103 Early Hints** – Provides preliminary responses before the final response.
+
+### **2xx – Success**
+
+Indicates that the request was successfully received, understood, and processed.
+
+- **200 OK** – The request was successful.
+- **201 Created** – A new resource was successfully created.
+- **202 Accepted** – The request has been accepted for processing but is not completed.
+- **204 No Content** – The request was successful, but there is no response body.
+
+### **3xx – Redirection**
+
+Indicates that further action is needed to complete the request.
+
+- **301 Moved Permanently** – The resource has been permanently moved to a new URL.
+- **302 Found** – The resource is temporarily located at a different URL.
+- **304 Not Modified** – The resource has not changed since the last request.
+
+### **4xx – Client Errors**
+
+Indicates that the request contains an error or cannot be fulfilled by the server.
+
+- **400 Bad Request** – The request was malformed or invalid.
+- **401 Unauthorized** – Authentication is required.
+- **403 Forbidden** – The client does not have permission to access the resource.
+- **404 Not Found** – The requested resource could not be found.
+- **408 Request Timeout** – The server timed out waiting for the request.
+
+### **5xx – Server Errors**
+
+Indicates that the server failed to fulfill a valid request.
+
+- **500 Internal Server Error** – A generic error message for unexpected conditions.
+- **502 Bad Gateway** – The server received an invalid response from an upstream server.
+- **503 Service Unavailable** – The server is temporarily unavailable.
+- **504 Gateway Timeout** – The server did not receive a timely response from an upstream server.
+
+Would you like details on any specific status code?
+
+### **GET, POST, PATCH, DELETE, CRUD, and GET vs POST in JavaScript**
+
+These terms are related to HTTP methods used in RESTful APIs and JavaScript for handling requests.
+
+---
+
+## **1. HTTP Methods & CRUD Operations**
+
+HTTP methods are used to communicate with servers, and they align with CRUD operations:
+
+| **HTTP Method** | **CRUD Operation** | **Description**                         |
+| --------------- | ------------------ | --------------------------------------- |
+| **GET**         | Read (Retrieve)    | Fetches data from a server.             |
+| **POST**        | Create (Insert)    | Sends new data to the server.           |
+| **PATCH**       | Update (Modify)    | Updates part of an existing resource.   |
+| **PUT**         | Update (Replace)   | Replaces an existing resource entirely. |
+| **DELETE**      | Delete (Remove)    | Removes data from the server.           |
+
+---
+
+## **2. GET vs POST in JavaScript**
+
+Both GET and POST are commonly used HTTP methods, but they have key differences:
+
+| **Feature**         | **GET**                                         | **POST**                                     |
+| ------------------- | ----------------------------------------------- | -------------------------------------------- |
+| **Usage**           | Fetches data from the server.                   | Sends new data to the server.                |
+| **Data in Request** | Sent via URL (query parameters).                | Sent in the request body.                    |
+| **Security**        | Less secure (visible in URL, cacheable).        | More secure (not stored in URL, not cached). |
+| **Idempotent?**     | Yes (multiple requests return the same result). | No (each request creates a new resource).    |
+| **Caching**         | Can be cached.                                  | Usually not cached.                          |
+
+---
+
+## **3. Examples in JavaScript (Fetch API)**
+
+### **GET Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Retrieves data** from the server.
+
+---
+
+### **POST Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title: "New Post", body: "Post content", userId: 1 }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log("Created:", data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Sends new data** to the server.
+
+---
+
+### **PATCH Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "PATCH",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title: "Updated Title" }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log("Updated:", data))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Partially updates** an existing resource.
+
+---
+
+### **DELETE Request**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts/1", {
+  method: "DELETE",
+})
+  .then((response) => console.log("Deleted successfully"))
+  .catch((error) => console.error("Error:", error));
+```
+
+📌 **Removes a resource** from the server.
+
+---
+
+### **Conclusion**
+
+- **GET** = Retrieve data
+- **POST** = Create new data
+- **PATCH** = Modify existing data
+- **DELETE** = Remove data
+- **GET vs POST** = GET is for reading, POST is for sending new data.
+
+### **Summary of Callback Functions, Synchronous & Asynchronous Execution in JavaScript**
+
+#### **🔹 JavaScript Execution Flow**
+
+- JavaScript is **single-threaded** and executes **code line by line (synchronously)**.
+- When a function is called, JavaScript **executes it completely before moving to the next line** (stack-based execution).
+- However, JavaScript also supports **asynchronous operations** using the **event loop**, allowing non-blocking execution.
+
+---
+
+### **🔹 Synchronous Code Execution (Blocking)**
+
+- In synchronous JavaScript, each operation **must finish before the next one runs**.
+- If a function takes too long (e.g., a heavy computation), it **blocks** further execution.
+
+#### **Example of Synchronous Execution:**
+
+```javascript
+console.log("Start");
+
+function greet(name) {
+  console.log("Hello, " + name);
+}
+
+greet("Alice"); // Function is executed completely before moving to the next line
+
+console.log("End");
+```
+
+✅ **Output:**
+
+```
+Start
+Hello, Alice
+End
+```
+
+📌 **JavaScript executes this line by line. `greet("Alice")` runs fully before `console.log("End")`.**
+
+---
+
+### **🔹 Asynchronous Code Execution (Non-Blocking)**
+
+- Asynchronous operations (e.g., `setTimeout`, `fetch`, `database queries`) **do not block** execution.
+- JavaScript **continues executing** the next lines while waiting for the async task to finish.
+
+#### **Example of Asynchronous Execution:**
+
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Hello, Alice");
+}, 2000); // Asynchronous - Executes after 2 seconds
+
+console.log("End");
+```
+
+✅ **Output:**
+
+```
+Start
+End
+(Hello, Alice appears after 2 seconds)
+```
+
+📌 **JavaScript moves on to `"End"` without waiting for `setTimeout` to finish.**
+
+---
+
+### **🔹 Callback Functions**
+
+- A **callback function** is a function passed as an argument to another function and executed later.
+- Callbacks are useful for **handling asynchronous operations** (e.g., fetching data from a server).
+
+#### **Example of a Callback Function (Synchronous)**
+
+```javascript
+function greet(name, callback) {
+  console.log("Hello, " + name);
+  callback(); // Call the function passed as an argument
+}
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+
+greet("Alice", sayGoodbye);
+```
+
+✅ **Output:**
+
+```
+Hello, Alice
+Goodbye!
+```
+
+📌 **The callback `sayGoodbye()` executes immediately after `console.log("Hello, " + name)`.**
+
+---
+
+### **🔹 Callback with Asynchronous Code**
+
+- Callbacks help execute code **only after** an async operation is complete.
+
+#### **Example: Using Callbacks for Asynchronous Execution**
+
+```javascript
+function fetchData(callback) {
+  setTimeout(() => {
+    console.log("Data fetched");
+    callback(); // Ensures the next function runs only after data is fetched
+  }, 2000);
+}
+
+function processData() {
+  console.log("Processing data...");
+}
+
+fetchData(processData);
+```
+
+✅ **Output:**
+
+```
+(Data fetched after 2 sec)
+Processing data...
+```
+
+📌 **The callback ensures `processData()` runs only after `"Data fetched"`.**
+
+---
+
+### **🔹 Key Takeaways**
+
+✔ **JavaScript executes code line by line** (synchronously by default).  
+✔ If a function is called, it **fully executes before moving to the next line**.  
+✔ **Asynchronous functions (setTimeout, fetch, etc.) do not block execution.**  
+✔ **Callbacks** allow functions to execute **after** an async task is complete.  
+✔ Callbacks are useful but can lead to **callback hell**, which is why **Promises & `async/await`** were introduced.
+
+### **`async` and `await` in JavaScript**
+
+`async` and `await` are syntactic sugar introduced in ES8 (ECMAScript 2017) to make working with **asynchronous code** easier and more readable. They are used with **Promises** to handle asynchronous operations like data fetching, timers, etc., in a way that looks like synchronous code.
+
+---
+
+## **1. `async` Function**
+
+An `async` function is a function that always returns a **Promise**. If the function returns a value, that value is wrapped in a resolved Promise. If the function throws an error, the error is wrapped in a rejected Promise.
+
+### **Syntax**
+
+```javascript
+async function myFunction() {
+  // Your code here
+}
+```
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  return "Data fetched"; // This is implicitly wrapped in a Promise
+}
+
+fetchData().then((result) => console.log(result)); // Output: "Data fetched"
+```
+
+---
+
+## **2. `await` Expression**
+
+The `await` keyword can only be used inside an `async` function. It pauses the execution of the function until the **Promise** is resolved or rejected, and then returns the resolved value.
+
+### **Syntax**
+
+```javascript
+let result = await somePromise;
+```
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  let result = await new Promise((resolve) =>
+    setTimeout(() => resolve("Data fetched"), 2000)
+  );
+  console.log(result); // Output: "Data fetched" after 2 seconds
+}
+
+fetchData();
+```
+
+📌 **Explanation:** The code execution is paused for 2 seconds while the `Promise` resolves, and then the result is logged.
+
+---
+
+## **3. Example of Using `async`/`await` with `fetch()`**
+
+### **Without `async`/`await`:**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+### **With `async`/`await`:**
+
+```javascript
+async function getPosts() {
+  try {
+    let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+getPosts();
+```
+
+📌 **Explanation:**
+
+- `await` makes the `fetch()` call wait for the server response before proceeding.
+- If there's an error (e.g., network issue), it will be caught using `try...catch`.
+
+---
+
+## **4. Handling Errors with `try...catch`**
+
+When working with `async`/`await`, it's common to use **`try...catch`** blocks to handle errors in asynchronous code.
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  try {
+    let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+fetchData();
+```
+
+📌 **Explanation:**
+
+- If the network response is not okay (e.g., 404 or 500), an error is thrown inside the `try` block, and it’s You're absolutely right that **JavaScript normally executes code line-by-line**, just like any other synchronous language. However, **asynchronous behavior** (like network requests, timers, or reading files) works a bit differently, and that's where things like `fetch()` and `await` come into play.
+
+### Here's the key distinction:
+
+### **1. Synchronous Behavior (Normal JS Execution)**
+
+In a **synchronous** code flow, JavaScript **executes one line at a time**, waiting for each line to finish before moving to the next. For example:
+
+```javascript
+console.log("Start");
+console.log("Middle");
+console.log("End");
+```
+
+Output:
+
+```
+Start
+Middle
+End
+```
+
+Each line is executed in order, **one by one**. This works well for simple tasks that don't involve waiting for external resources (like API calls).
+
+---
+
+### **2. Asynchronous Behavior (Handling Network Requests)**
+
+When you're working with things like **network requests** (API calls, file reading, etc.), **JavaScript can't just pause execution while it waits for a response**. It would block the entire program while waiting for the request to finish, which would be very inefficient.
+
+For example, when you use `fetch()`, it makes an **HTTP request** to an API, which can take a variable amount of time depending on factors like network speed, server load, etc.
+
+If JavaScript had to **wait** for that request to finish **before continuing**, it would **block** the rest of your code from running.
+
+#### Without `async`/`await` (using Promises and `.then()`)
+
+Let's take a look at how it works with **Promises** (before `async`/`await` came into play):
+
+```javascript
+console.log("Start");
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json()) // Handle the response
+  .then((data) => {
+    console.log("Data fetched:", data);
+  });
+
+console.log("End");
+```
+
+### **What Happens Here:**
+
+1. **"Start"** is logged.
+2. `fetch()` makes an asynchronous API request, and immediately returns a **Promise**. It doesn't block the execution of the rest of the code.
+3. **"End"** is logged **before** the data is fetched (since `fetch()` is asynchronous).
+4. Once the response is received, the Promise resolves, and the `.then()` block is executed, logging the fetched data.
+
+**Key Point:** Even though you made a `fetch()` request, the program didn't wait for it to finish. It continued to execute the next line (`console.log("End")`) while waiting for the fetch request to complete. This is why the output might look like:
+
+```
+Start
+End
+Data fetched: [ ... ]
+```
+
+### **3. Why Use `await`?**
+
+`await` is introduced to **make asynchronous code look and behave more synchronously**. Without `await`, you would have to use `.then()` or `.catch()` to handle the results, which can become cumbersome with multiple asynchronous calls.
+
+#### With `async`/`await`:
+
+```javascript
+async function fetchData() {
+  console.log("Start");
+
+  // `await` makes the code wait for the fetch to complete before continuing
+  let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let data = await response.json(); // Convert response to JSON
+
+  console.log("Data fetched:", data);
+
+  console.log("End");
+}
+
+fetchData();
+```
+
+### **What Happens Now:**
+
+1. **"Start"** is logged.
+2. `await` pauses the execution of the `fetchData()` function until the **`fetch()`** request is complete.
+3. Once the `fetch()` completes and the response is received, the function continues, logging the fetched data.
+4. **"End"** is logged only after the data is fetched and the JSON is processed.
+
+**Key Point:** Here, the code **pauses** until the API request finishes, making it behave more like synchronous code. You don't need to use `.then()` anymore, making it easier to read and maintain.
+
+### **Why Use `await`?**
+
+- **Improved Readability**: Without `await`, you'd need to chain `.then()` and `.catch()` callbacks, which can make the code harder to follow.
+- **Prevents Race Conditions**: `await` ensures that the code doesn't continue to the next line until the Promise is resolved, avoiding errors where the next line depends on the result of the previous asynchronous task.
+- **Cleaner Syntax**: With `async/await`, you can handle asynchronous code in a more natural, linear flow, similar to synchronous programming.
+
+### **To Summarize:**
+
+- **Normal JavaScript** runs **synchronously**, executing one line at a time.
+- **Asynchronous functions** like `fetch()` don’t block the rest of the code from running. They return **Promises** that resolve in the future, which is why we use `await` to **pause the function until the Promise resolves**.
+- Using `await` makes asynchronous code easier to read and ensures that you can work with data that depends on API calls or other asynchronous tasks without running into errors.
+
+Does this help clarify the concept? Let me know if you'd like more examples! 😊 in the `catch` block.
+
+---
+
+## **5. `async`/`await` vs Promises**
+
+| **Feature**        | **`async`/`await`**                | **Promises**                         |
+| ------------------ | ---------------------------------- | ------------------------------------ |
+| **Syntax**         | More readable and synchronous-like | More complex chaining with `.then()` |
+| **Error Handling** | `try...catch` block                | `.catch()`                           |
+| **Flow**           | Looks like synchronous code        | Uses chaining with `.then()`         |
+| **Readability**    | Easier to read and write           | More verbose with multiple `.then()` |
+
+---
+
+### **6. Example with Multiple `await` Calls**
+
+You can use `await` multiple times to handle multiple asynchronous calls in sequence.
+
+### **Example:**
+
+```javascript
+async function fetchMultipleData() {
+  try {
+    let response1 = await fetch("https://jsonplaceholder.typicode.com/posts");
+    let data1 = await response1.json();
+
+    let response2 = await fetch(
+      "https://jsonplaceholder.typicode.com/comments"
+    );
+    let data2 = await response2.json();
+
+    console.log(data1, data2);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+fetchMultipleData();
+```
+
+📌 **Explanation:**
+
+- The second fetch request waits for the first one to complete before running.
+
+---
+
+## **7. Parallel Execution with `Promise.all()`**
+
+If you have multiple asynchronous tasks that can run in parallel, you can use `Promise.all()` to execute them concurrently, and then `await` the results.
+
+### **Example:**
+
+```javascript
+async function fetchMultipleData() {
+  try {
+    let [response1, response2] = await Promise.all([
+      fetch("https://jsonplaceholder.typicode.com/posts"),
+      fetch("https://jsonplaceholder.typicode.com/comments"),
+    ]);
+
+    let data1 = await response1.json();
+    let data2 = await response2.json();
+
+    console.log(data1, data2);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+fetchMultipleData();
+```
+
+📌 **Explanation:**
+
+- Both `fetch` calls run **in parallel**, improving performance compared to sequential execution.
+
+---
+
+### **Conclusion:**
+
+- **`async`** makes a function return a **Promise**.
+- **`await`** waits for the **Promise** to resolve or reject before proceeding.
+- **`try...catch`** is used to handle errors in asynchronous code.
+- `async/await` makes asynchronous code look and behave like synchronous code, improving readability and flow.
+
+You're absolutely right that **JavaScript normally executes code line-by-line**, just like any other synchronous language. However, **asynchronous behavior** (like network requests, timers, or reading files) works a bit differently, and that's where things like `fetch()` and `await` come into play.
+
+### Here's the key distinction:
+
+### **1. Synchronous Behavior (Normal JS Execution)**
+
+In a **synchronous** code flow, JavaScript **executes one line at a time**, waiting for each line to finish before moving to the next. For example:
+
+```javascript
+console.log("Start");
+console.log("Middle");
+console.log("End");
+```
+
+Output:
+
+```
+Start
+Middle
+End
+```
+
+Each line is executed in order, **one by one**. This works well for simple tasks that don't involve waiting for external resources (like API calls).
+
+---
+
+### **2. Asynchronous Behavior (Handling Network Requests)**
+
+When you're working with things like **network requests** (API calls, file reading, etc.), **JavaScript can't just pause execution while it waits for a response**. It would block the entire program while waiting for the request to finish, which would be very inefficient.
+
+For example, when you use `fetch()`, it makes an **HTTP request** to an API, which can take a variable amount of time depending on factors like network speed, server load, etc.
+
+If JavaScript had to **wait** for that request to finish **before continuing**, it would **block** the rest of your code from running.
+
+#### Without `async`/`await` (using Promises and `.then()`)
+
+Let's take a look at how it works with **Promises** (before `async`/`await` came into play):
+
+```javascript
+console.log("Start");
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json()) // Handle the response
+  .then((data) => {
+    console.log("Data fetched:", data);
+  });
+
+console.log("End");
+```
+
+### **What Happens Here:**
+
+1. **"Start"** is logged.
+2. `fetch()` makes an asynchronous API request, and immediately returns a **Promise**. It doesn't block the execution of the rest of the code.
+3. **"End"** is logged **before** the data is fetched (since `fetch()` is asynchronous).
+4. Once the response is received, the Promise resolves, and the `.then()` block is executed, logging the fetched data.
+
+**Key Point:** Even though you made a `fetch()` request, the program didn't wait for it to finish. It continued to execute the next line (`console.log("End")`) while waiting for the fetch request to complete. This is why the output might look like:
+
+```
+Start
+End
+Data fetched: [ ... ]
+```
+
+### **3. Why Use `await`?**
+
+`await` is introduced to **make asynchronous code look and behave more synchronously**. Without `await`, you would have to use `.then()` or `.catch()` to handle the results, which can become cumbersome with multiple asynchronous calls.
+
+#### With `async`/`await`:
+
+```javascript
+async function fetchData() {
+  console.log("Start");
+
+  // `await` makes the code wait for the fetch to complete before continuing
+  let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let data = await response.json(); // Convert response to JSON
+
+  console.log("Data fetched:", data);
+
+  console.log("End");
+}
+
+fetchData();
+```
+
+### **What Happens Now:**
+
+1. **"Start"** is logged.
+2. `await` pauses the execution of the `fetchData()` function until the **`fetch()`** request is complete.
+3. Once the `fetch()` completes and the response is received, the function continues, logging the fetched data.
+4. **"End"** is logged only after the data is fetched and the JSON is processed.
+
+**Key Point:** Here, the code **pauses** until the API request finishes, making it behave more like synchronous code. You don't need to use `.then()` anymore, making it easier to read and maintain.
+
+### **Why Use `await`?**
+
+- **Improved Readability**: Without `await`, you'd need to chain `.then()` and `.catch()` callbacks, which can make the code harder to follow.
+- **Prevents Race Conditions**: `await` ensures that the code doesn't continue to the next line until the Promise is resolved, avoiding errors where the next line depends on the result of the previous asynchronous task.
+- **Cleaner Syntax**: With `async/await`, you can handle asynchronous code in a more natural, linear flow, similar to synchronous programming.
+
+### **To Summarize:**
+
+- **Normal JavaScript** runs **synchronously**, executing one line at a time.
+- **Asynchronous functions** like `fetch()` don’t block the rest of the code from running. They return **Promises** that resolve in the future, which is why we use `await` to **pause the function until the Promise resolves**.
+- Using `await` makes asynchronous code easier to read and ensures that you can work with data that depends on API calls or other asynchronous tasks without running into errors.
+
+# Interview Questions
+
+- **Tell me something about JS engine v8 internal mechanism.**
+- **What is event loop in JavaScript?**
+- **If JavaScript is single-threaded, how does it handle asynchronous calls?**
+- **Differences between `setTimeout` and `setInterval`.**
+- **Can you explain the difference between `async/await` and `Promise`?**
+- **What's the error handling strategy for promises that were rejected while awaiting?**
+- **Can you explain what the `.then` method does?**
+
+# Understanding JavaScript's Call Stack, Event Loop, and Callback Queue
+
+JavaScript's execution model is based on the **call stack**, **event loop**, and **callback queue**. Understanding their interaction is crucial for writing efficient asynchronous code.
+
+## Key Concepts
+
+- **Call Stack**: Keeps track of function calls.
+- **Event Loop**: Monitors the call stack and callback queue, pushing tasks when the stack is empty.
+- **Callback Queue**: Stores asynchronous callbacks to be executed.
+
+## Interactive Visualizations
+
+- [Loupe - JavaScript Event Loop Visualizer](https://latentflip.com/loupe)
+- [JSV9000 - JavaScript Execution Visualizer](https://www.jsv9000.app/)
