@@ -1297,6 +1297,54 @@ Hypertext Transfer Protocol (HTTP) is an application-layer (in [OSI](#osi-model)
 
 The OSI (Open Systems Interconnection) Model is a set of rules that explains how different computer systems communicate over a network. OSI Model was developed by the International Organization for Standardization (ISO). The OSI Model consists of 7 layers and each layer has specific functions and responsibilities.
 
+HTTP response status codes are three-digit numbers returned by a server to indicate the result of a client's request. They are categorized into five classes:
+
+### **1xx – Informational**
+
+Indicates that the request was received and understood, and the server is processing it.
+
+- **100 Continue** – The server has received the request headers and is waiting for the body.
+- **101 Switching Protocols** – The server is switching protocols as requested by the client.
+- **103 Early Hints** – Provides preliminary responses before the final response.
+
+### **2xx – Success**
+
+Indicates that the request was successfully received, understood, and processed.
+
+- **200 OK** – The request was successful.
+- **201 Created** – A new resource was successfully created.
+- **202 Accepted** – The request has been accepted for processing but is not completed.
+- **204 No Content** – The request was successful, but there is no response body.
+
+### **3xx – Redirection**
+
+Indicates that further action is needed to complete the request.
+
+- **301 Moved Permanently** – The resource has been permanently moved to a new URL.
+- **302 Found** – The resource is temporarily located at a different URL.
+- **304 Not Modified** – The resource has not changed since the last request.
+
+### **4xx – Client Errors**
+
+Indicates that the request contains an error or cannot be fulfilled by the server.
+
+- **400 Bad Request** – The request was malformed or invalid.
+- **401 Unauthorized** – Authentication is required.
+- **403 Forbidden** – The client does not have permission to access the resource.
+- **404 Not Found** – The requested resource could not be found.
+- **408 Request Timeout** – The server timed out waiting for the request.
+
+### **5xx – Server Errors**
+
+Indicates that the server failed to fulfill a valid request.
+
+- **500 Internal Server Error** – A generic error message for unexpected conditions.
+- **502 Bad Gateway** – The server received an invalid response from an upstream server.
+- **503 Service Unavailable** – The server is temporarily unavailable.
+- **504 Gateway Timeout** – The server did not receive a timely response from an upstream server.
+
+Would you like details on any specific status code?
+
 ### **GET, POST, PATCH, DELETE, CRUD, and GET vs POST in JavaScript**
 
 These terms are related to HTTP methods used in RESTful APIs and JavaScript for handling requests.
@@ -1401,3 +1449,587 @@ fetch("https://jsonplaceholder.typicode.com/posts/1", {
 - **PATCH** = Modify existing data
 - **DELETE** = Remove data
 - **GET vs POST** = GET is for reading, POST is for sending new data.
+
+### **Summary of Callback Functions, Synchronous & Asynchronous Execution in JavaScript**
+
+#### **🔹 JavaScript Execution Flow**
+
+- JavaScript is **single-threaded** and executes **code line by line (synchronously)**.
+- When a function is called, JavaScript **executes it completely before moving to the next line** (stack-based execution).
+- However, JavaScript also supports **asynchronous operations** using the **event loop**, allowing non-blocking execution.
+
+---
+
+### **🔹 Synchronous Code Execution (Blocking)**
+
+- In synchronous JavaScript, each operation **must finish before the next one runs**.
+- If a function takes too long (e.g., a heavy computation), it **blocks** further execution.
+
+#### **Example of Synchronous Execution:**
+
+```javascript
+console.log("Start");
+
+function greet(name) {
+  console.log("Hello, " + name);
+}
+
+greet("Alice"); // Function is executed completely before moving to the next line
+
+console.log("End");
+```
+
+✅ **Output:**
+
+```
+Start
+Hello, Alice
+End
+```
+
+📌 **JavaScript executes this line by line. `greet("Alice")` runs fully before `console.log("End")`.**
+
+---
+
+### **🔹 Asynchronous Code Execution (Non-Blocking)**
+
+- Asynchronous operations (e.g., `setTimeout`, `fetch`, `database queries`) **do not block** execution.
+- JavaScript **continues executing** the next lines while waiting for the async task to finish.
+
+#### **Example of Asynchronous Execution:**
+
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Hello, Alice");
+}, 2000); // Asynchronous - Executes after 2 seconds
+
+console.log("End");
+```
+
+✅ **Output:**
+
+```
+Start
+End
+(Hello, Alice appears after 2 seconds)
+```
+
+📌 **JavaScript moves on to `"End"` without waiting for `setTimeout` to finish.**
+
+---
+
+### **🔹 Callback Functions**
+
+- A **callback function** is a function passed as an argument to another function and executed later.
+- Callbacks are useful for **handling asynchronous operations** (e.g., fetching data from a server).
+
+#### **Example of a Callback Function (Synchronous)**
+
+```javascript
+function greet(name, callback) {
+  console.log("Hello, " + name);
+  callback(); // Call the function passed as an argument
+}
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+
+greet("Alice", sayGoodbye);
+```
+
+✅ **Output:**
+
+```
+Hello, Alice
+Goodbye!
+```
+
+📌 **The callback `sayGoodbye()` executes immediately after `console.log("Hello, " + name)`.**
+
+---
+
+### **🔹 Callback with Asynchronous Code**
+
+- Callbacks help execute code **only after** an async operation is complete.
+
+#### **Example: Using Callbacks for Asynchronous Execution**
+
+```javascript
+function fetchData(callback) {
+  setTimeout(() => {
+    console.log("Data fetched");
+    callback(); // Ensures the next function runs only after data is fetched
+  }, 2000);
+}
+
+function processData() {
+  console.log("Processing data...");
+}
+
+fetchData(processData);
+```
+
+✅ **Output:**
+
+```
+(Data fetched after 2 sec)
+Processing data...
+```
+
+📌 **The callback ensures `processData()` runs only after `"Data fetched"`.**
+
+---
+
+### **🔹 Key Takeaways**
+
+✔ **JavaScript executes code line by line** (synchronously by default).  
+✔ If a function is called, it **fully executes before moving to the next line**.  
+✔ **Asynchronous functions (setTimeout, fetch, etc.) do not block execution.**  
+✔ **Callbacks** allow functions to execute **after** an async task is complete.  
+✔ Callbacks are useful but can lead to **callback hell**, which is why **Promises & `async/await`** were introduced.
+
+### **`async` and `await` in JavaScript**
+
+`async` and `await` are syntactic sugar introduced in ES8 (ECMAScript 2017) to make working with **asynchronous code** easier and more readable. They are used with **Promises** to handle asynchronous operations like data fetching, timers, etc., in a way that looks like synchronous code.
+
+---
+
+## **1. `async` Function**
+
+An `async` function is a function that always returns a **Promise**. If the function returns a value, that value is wrapped in a resolved Promise. If the function throws an error, the error is wrapped in a rejected Promise.
+
+### **Syntax**
+
+```javascript
+async function myFunction() {
+  // Your code here
+}
+```
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  return "Data fetched"; // This is implicitly wrapped in a Promise
+}
+
+fetchData().then((result) => console.log(result)); // Output: "Data fetched"
+```
+
+---
+
+## **2. `await` Expression**
+
+The `await` keyword can only be used inside an `async` function. It pauses the execution of the function until the **Promise** is resolved or rejected, and then returns the resolved value.
+
+### **Syntax**
+
+```javascript
+let result = await somePromise;
+```
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  let result = await new Promise((resolve) =>
+    setTimeout(() => resolve("Data fetched"), 2000)
+  );
+  console.log(result); // Output: "Data fetched" after 2 seconds
+}
+
+fetchData();
+```
+
+📌 **Explanation:** The code execution is paused for 2 seconds while the `Promise` resolves, and then the result is logged.
+
+---
+
+## **3. Example of Using `async`/`await` with `fetch()`**
+
+### **Without `async`/`await`:**
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+### **With `async`/`await`:**
+
+```javascript
+async function getPosts() {
+  try {
+    let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+getPosts();
+```
+
+📌 **Explanation:**
+
+- `await` makes the `fetch()` call wait for the server response before proceeding.
+- If there's an error (e.g., network issue), it will be caught using `try...catch`.
+
+---
+
+## **4. Handling Errors with `try...catch`**
+
+When working with `async`/`await`, it's common to use **`try...catch`** blocks to handle errors in asynchronous code.
+
+### **Example:**
+
+```javascript
+async function fetchData() {
+  try {
+    let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+fetchData();
+```
+
+📌 **Explanation:**
+
+- If the network response is not okay (e.g., 404 or 500), an error is thrown inside the `try` block, and it’s You're absolutely right that **JavaScript normally executes code line-by-line**, just like any other synchronous language. However, **asynchronous behavior** (like network requests, timers, or reading files) works a bit differently, and that's where things like `fetch()` and `await` come into play.
+
+### Here's the key distinction:
+
+### **1. Synchronous Behavior (Normal JS Execution)**
+
+In a **synchronous** code flow, JavaScript **executes one line at a time**, waiting for each line to finish before moving to the next. For example:
+
+```javascript
+console.log("Start");
+console.log("Middle");
+console.log("End");
+```
+
+Output:
+
+```
+Start
+Middle
+End
+```
+
+Each line is executed in order, **one by one**. This works well for simple tasks that don't involve waiting for external resources (like API calls).
+
+---
+
+### **2. Asynchronous Behavior (Handling Network Requests)**
+
+When you're working with things like **network requests** (API calls, file reading, etc.), **JavaScript can't just pause execution while it waits for a response**. It would block the entire program while waiting for the request to finish, which would be very inefficient.
+
+For example, when you use `fetch()`, it makes an **HTTP request** to an API, which can take a variable amount of time depending on factors like network speed, server load, etc.
+
+If JavaScript had to **wait** for that request to finish **before continuing**, it would **block** the rest of your code from running.
+
+#### Without `async`/`await` (using Promises and `.then()`)
+
+Let's take a look at how it works with **Promises** (before `async`/`await` came into play):
+
+```javascript
+console.log("Start");
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json()) // Handle the response
+  .then((data) => {
+    console.log("Data fetched:", data);
+  });
+
+console.log("End");
+```
+
+### **What Happens Here:**
+
+1. **"Start"** is logged.
+2. `fetch()` makes an asynchronous API request, and immediately returns a **Promise**. It doesn't block the execution of the rest of the code.
+3. **"End"** is logged **before** the data is fetched (since `fetch()` is asynchronous).
+4. Once the response is received, the Promise resolves, and the `.then()` block is executed, logging the fetched data.
+
+**Key Point:** Even though you made a `fetch()` request, the program didn't wait for it to finish. It continued to execute the next line (`console.log("End")`) while waiting for the fetch request to complete. This is why the output might look like:
+
+```
+Start
+End
+Data fetched: [ ... ]
+```
+
+### **3. Why Use `await`?**
+
+`await` is introduced to **make asynchronous code look and behave more synchronously**. Without `await`, you would have to use `.then()` or `.catch()` to handle the results, which can become cumbersome with multiple asynchronous calls.
+
+#### With `async`/`await`:
+
+```javascript
+async function fetchData() {
+  console.log("Start");
+
+  // `await` makes the code wait for the fetch to complete before continuing
+  let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let data = await response.json(); // Convert response to JSON
+
+  console.log("Data fetched:", data);
+
+  console.log("End");
+}
+
+fetchData();
+```
+
+### **What Happens Now:**
+
+1. **"Start"** is logged.
+2. `await` pauses the execution of the `fetchData()` function until the **`fetch()`** request is complete.
+3. Once the `fetch()` completes and the response is received, the function continues, logging the fetched data.
+4. **"End"** is logged only after the data is fetched and the JSON is processed.
+
+**Key Point:** Here, the code **pauses** until the API request finishes, making it behave more like synchronous code. You don't need to use `.then()` anymore, making it easier to read and maintain.
+
+### **Why Use `await`?**
+
+- **Improved Readability**: Without `await`, you'd need to chain `.then()` and `.catch()` callbacks, which can make the code harder to follow.
+- **Prevents Race Conditions**: `await` ensures that the code doesn't continue to the next line until the Promise is resolved, avoiding errors where the next line depends on the result of the previous asynchronous task.
+- **Cleaner Syntax**: With `async/await`, you can handle asynchronous code in a more natural, linear flow, similar to synchronous programming.
+
+### **To Summarize:**
+
+- **Normal JavaScript** runs **synchronously**, executing one line at a time.
+- **Asynchronous functions** like `fetch()` don’t block the rest of the code from running. They return **Promises** that resolve in the future, which is why we use `await` to **pause the function until the Promise resolves**.
+- Using `await` makes asynchronous code easier to read and ensures that you can work with data that depends on API calls or other asynchronous tasks without running into errors.
+
+Does this help clarify the concept? Let me know if you'd like more examples! 😊 in the `catch` block.
+
+---
+
+## **5. `async`/`await` vs Promises**
+
+| **Feature**        | **`async`/`await`**                | **Promises**                         |
+| ------------------ | ---------------------------------- | ------------------------------------ |
+| **Syntax**         | More readable and synchronous-like | More complex chaining with `.then()` |
+| **Error Handling** | `try...catch` block                | `.catch()`                           |
+| **Flow**           | Looks like synchronous code        | Uses chaining with `.then()`         |
+| **Readability**    | Easier to read and write           | More verbose with multiple `.then()` |
+
+---
+
+### **6. Example with Multiple `await` Calls**
+
+You can use `await` multiple times to handle multiple asynchronous calls in sequence.
+
+### **Example:**
+
+```javascript
+async function fetchMultipleData() {
+  try {
+    let response1 = await fetch("https://jsonplaceholder.typicode.com/posts");
+    let data1 = await response1.json();
+
+    let response2 = await fetch(
+      "https://jsonplaceholder.typicode.com/comments"
+    );
+    let data2 = await response2.json();
+
+    console.log(data1, data2);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+fetchMultipleData();
+```
+
+📌 **Explanation:**
+
+- The second fetch request waits for the first one to complete before running.
+
+---
+
+## **7. Parallel Execution with `Promise.all()`**
+
+If you have multiple asynchronous tasks that can run in parallel, you can use `Promise.all()` to execute them concurrently, and then `await` the results.
+
+### **Example:**
+
+```javascript
+async function fetchMultipleData() {
+  try {
+    let [response1, response2] = await Promise.all([
+      fetch("https://jsonplaceholder.typicode.com/posts"),
+      fetch("https://jsonplaceholder.typicode.com/comments"),
+    ]);
+
+    let data1 = await response1.json();
+    let data2 = await response2.json();
+
+    console.log(data1, data2);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+fetchMultipleData();
+```
+
+📌 **Explanation:**
+
+- Both `fetch` calls run **in parallel**, improving performance compared to sequential execution.
+
+---
+
+### **Conclusion:**
+
+- **`async`** makes a function return a **Promise**.
+- **`await`** waits for the **Promise** to resolve or reject before proceeding.
+- **`try...catch`** is used to handle errors in asynchronous code.
+- `async/await` makes asynchronous code look and behave like synchronous code, improving readability and flow.
+
+You're absolutely right that **JavaScript normally executes code line-by-line**, just like any other synchronous language. However, **asynchronous behavior** (like network requests, timers, or reading files) works a bit differently, and that's where things like `fetch()` and `await` come into play.
+
+### Here's the key distinction:
+
+### **1. Synchronous Behavior (Normal JS Execution)**
+
+In a **synchronous** code flow, JavaScript **executes one line at a time**, waiting for each line to finish before moving to the next. For example:
+
+```javascript
+console.log("Start");
+console.log("Middle");
+console.log("End");
+```
+
+Output:
+
+```
+Start
+Middle
+End
+```
+
+Each line is executed in order, **one by one**. This works well for simple tasks that don't involve waiting for external resources (like API calls).
+
+---
+
+### **2. Asynchronous Behavior (Handling Network Requests)**
+
+When you're working with things like **network requests** (API calls, file reading, etc.), **JavaScript can't just pause execution while it waits for a response**. It would block the entire program while waiting for the request to finish, which would be very inefficient.
+
+For example, when you use `fetch()`, it makes an **HTTP request** to an API, which can take a variable amount of time depending on factors like network speed, server load, etc.
+
+If JavaScript had to **wait** for that request to finish **before continuing**, it would **block** the rest of your code from running.
+
+#### Without `async`/`await` (using Promises and `.then()`)
+
+Let's take a look at how it works with **Promises** (before `async`/`await` came into play):
+
+```javascript
+console.log("Start");
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json()) // Handle the response
+  .then((data) => {
+    console.log("Data fetched:", data);
+  });
+
+console.log("End");
+```
+
+### **What Happens Here:**
+
+1. **"Start"** is logged.
+2. `fetch()` makes an asynchronous API request, and immediately returns a **Promise**. It doesn't block the execution of the rest of the code.
+3. **"End"** is logged **before** the data is fetched (since `fetch()` is asynchronous).
+4. Once the response is received, the Promise resolves, and the `.then()` block is executed, logging the fetched data.
+
+**Key Point:** Even though you made a `fetch()` request, the program didn't wait for it to finish. It continued to execute the next line (`console.log("End")`) while waiting for the fetch request to complete. This is why the output might look like:
+
+```
+Start
+End
+Data fetched: [ ... ]
+```
+
+### **3. Why Use `await`?**
+
+`await` is introduced to **make asynchronous code look and behave more synchronously**. Without `await`, you would have to use `.then()` or `.catch()` to handle the results, which can become cumbersome with multiple asynchronous calls.
+
+#### With `async`/`await`:
+
+```javascript
+async function fetchData() {
+  console.log("Start");
+
+  // `await` makes the code wait for the fetch to complete before continuing
+  let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let data = await response.json(); // Convert response to JSON
+
+  console.log("Data fetched:", data);
+
+  console.log("End");
+}
+
+fetchData();
+```
+
+### **What Happens Now:**
+
+1. **"Start"** is logged.
+2. `await` pauses the execution of the `fetchData()` function until the **`fetch()`** request is complete.
+3. Once the `fetch()` completes and the response is received, the function continues, logging the fetched data.
+4. **"End"** is logged only after the data is fetched and the JSON is processed.
+
+**Key Point:** Here, the code **pauses** until the API request finishes, making it behave more like synchronous code. You don't need to use `.then()` anymore, making it easier to read and maintain.
+
+### **Why Use `await`?**
+
+- **Improved Readability**: Without `await`, you'd need to chain `.then()` and `.catch()` callbacks, which can make the code harder to follow.
+- **Prevents Race Conditions**: `await` ensures that the code doesn't continue to the next line until the Promise is resolved, avoiding errors where the next line depends on the result of the previous asynchronous task.
+- **Cleaner Syntax**: With `async/await`, you can handle asynchronous code in a more natural, linear flow, similar to synchronous programming.
+
+### **To Summarize:**
+
+- **Normal JavaScript** runs **synchronously**, executing one line at a time.
+- **Asynchronous functions** like `fetch()` don’t block the rest of the code from running. They return **Promises** that resolve in the future, which is why we use `await` to **pause the function until the Promise resolves**.
+- Using `await` makes asynchronous code easier to read and ensures that you can work with data that depends on API calls or other asynchronous tasks without running into errors.
+
+# Interview Questions
+
+- **Tell me something about JS engine v8 internal mechanism.**
+- **What is event loop in JavaScript?**
+- **If JavaScript is single-threaded, how does it handle asynchronous calls?**
+- **Differences between `setTimeout` and `setInterval`.**
+- **Can you explain the difference between `async/await` and `Promise`?**
+- **What's the error handling strategy for promises that were rejected while awaiting?**
+- **Can you explain what the `.then` method does?**
+
+# Understanding JavaScript's Call Stack, Event Loop, and Callback Queue
+
+JavaScript's execution model is based on the **call stack**, **event loop**, and **callback queue**. Understanding their interaction is crucial for writing efficient asynchronous code.
+
+## Key Concepts
+
+- **Call Stack**: Keeps track of function calls.
+- **Event Loop**: Monitors the call stack and callback queue, pushing tasks when the stack is empty.
+- **Callback Queue**: Stores asynchronous callbacks to be executed.
+
+## Interactive Visualizations
+
+- [Loupe - JavaScript Event Loop Visualizer](https://latentflip.com/loupe)
+- [JSV9000 - JavaScript Execution Visualizer](https://www.jsv9000.app/)
