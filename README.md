@@ -409,6 +409,107 @@ console.log(b); // "sams"
 ✔ **JavaScript garbage collects unreferenced strings.**  
 ✔ **Immutable strings prevent unintended side effects.**
 
+# Optional Chaining (`?.`) in JavaScript
+
+## What is Optional Chaining?
+
+Optional chaining (`?.`) is a feature in JavaScript that allows us to safely access deeply nested object properties **without causing errors** if a property is missing.
+
+## Why Use Optional Chaining?
+
+Normally, if you try to access a property of `undefined` or `null`, JavaScript throws an error. Optional chaining prevents this by returning `undefined` instead of throwing an error.
+
+## Example Without Optional Chaining (Error Case)
+
+```js
+let toyBox = {};
+console.log(toyBox.cars.redRaceCar.name); // ❌ ERROR! "Cannot read properties of undefined"
+```
+
+## Example With Optional Chaining (Safe Access)
+
+```js
+let toyBox = {};
+console.log(toyBox.cars?.redRaceCar?.name); // ✅ No error, returns undefined
+```
+
+## How It Works
+
+- The `?.` operator checks if the left-side property exists before trying to access the next level.
+- If the property **does not exist**, it stops and returns `undefined` instead of throwing an error.
+
+## More Examples
+
+### Accessing Nested Objects Safely
+
+```js
+let user = {
+  profile: {
+    name: "Alice",
+  },
+};
+console.log(user.profile?.name); // ✅ "Alice"
+console.log(user.address?.street); // ✅ undefined (instead of an error)
+```
+
+### Using Optional Chaining with Function Calls
+
+```js
+let obj = {
+  greet: () => "Hello!",
+};
+console.log(obj.greet?.()); // ✅ "Hello!"
+console.log(obj.sayHi?.()); // ✅ undefined (no error if sayHi doesn’t exist)
+```
+
+### Example: Without Optional Chaining (Error Case)
+
+```js
+let user = {};
+console.log(user.profile.name); // ❌ ERROR! "Cannot read properties of undefined"
+```
+
+- Here, `user.profile` does not exist, so trying to access `name` causes an **error**.
+
+### Example: With Optional Chaining (Safe Access)
+
+```js
+let user = {};
+console.log(user.profile?.name); // ✅ undefined (No error)
+```
+
+- The `?.` checks if `user.profile` **exists**.
+- Since `user.profile` is `undefined`, it **stops** and returns `undefined` instead of causing an error.
+
+### Example: Accessing Nested Properties
+
+```js
+let student = {
+  details: {
+    name: "John",
+    age: 20,
+  },
+};
+
+console.log(student.details?.name); // ✅ "John" (exists)
+console.log(student.address?.city); // ✅ undefined (doesn't exist, but no error)
+```
+
+- `student.details?.name` → **Exists** → Returns `"John"`.
+- `student.address?.city` → `student.address` is **undefined** → Stops and returns `undefined`.
+
+## When to Use Optional Chaining?
+
+- When accessing **optional properties** that may not exist.
+- When dealing with **data from APIs** where some fields might be missing.
+- When working with **complex nested objects**.
+
+## Summary
+
+✅ **Prevents errors when accessing undefined or missing properties**  
+✅ **Returns `undefined` instead of crashing the program**  
+✅ **Useful for handling dynamic or API-based data**
+
 ### **🔍 Rest Operator (`...`) vs Spread Operator (`...`) in JavaScript**
 
 Both **rest** and **spread** use the same `...` syntax, but they work **differently** based on how they're used.
